@@ -1,20 +1,20 @@
-name: Bug Report
-description: File a bug report
+name: Bug Rapport
+description: Meld een bug
 title: "[Bug]: "
 labels: ["bug"]
 body:
   - type: textarea
     id: what-happened
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: Wat gebeurde er?
+      description: Vertel ook wat had je verwacht dat er zou gebeuren.
+      placeholder: Vertel ons wat je ziet!
+      value: "Een bug!"
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      label: Relevante logs
+      description: Kopieer en plak eventuele relevante loguitvoer. Dit wordt automatisch opgemaakt als code, dus geen behoefte aan backticks.
       render: shell
