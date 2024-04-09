@@ -7,14 +7,23 @@ body:
     id: what-happened
     attributes:
       label: Wat gebeurde er?
-      description: Vertel ook wat had je verwacht dat er zou gebeuren.
+      description: Vertel ons ook, wat had je verwacht dat er zou gebeuren?
       placeholder: Vertel ons wat je ziet!
-      value: "Een bug!"
+      value: "Er trad een bug op!"
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Stappen om de bug te reproduceren
+      description: Geef gedetailleerde stappen om het probleem te reproduceren.
+      placeholder: Beschrijf de exacte stappen die je hebt genomen die tot het probleem hebben geleid.
+      value: "1. \n2. \n3. "
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: Relevante logs
+      label: Relevante loguitvoer
       description: Kopieer en plak eventuele relevante loguitvoer. Dit wordt automatisch opgemaakt als code, dus geen behoefte aan backticks.
       render: shell
