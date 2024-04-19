@@ -1,0 +1,34 @@
+{
+  "name": "curriculum",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "cypress:open": "cypress open",
+    "lint": "next lint",
+    "format": "prettier --check .",
+    "cypress:run": "cypress run",
+    "format:fix": "prettier --write --list-different ."
+  },
+  "dependencies": {
+    "next": "14.2.1",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "cypress": "^13.7.3",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.1",
+    "eslint-config-prettier": "^9.1.0",
+    "postcss": "^8",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
