@@ -4,7 +4,7 @@ class NavbarComponent extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="/css/mobile-navbar.css">
       <header>
         <div class="container">
           <input type="checkbox" name="" id="check">
