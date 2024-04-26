@@ -87,7 +87,7 @@ class NavbarComponent extends HTMLElement {
     tags.className = "labels";
     vaardigheden.forEach((child) => {
       const tag = document.createElement("div");
-      tag.textContent = "▶ " + child.naam;
+      tag.textContent = "📂 " + child.naam;
       tag.className = "label";
       tag.addEventListener("click", () => {
         this.toggleLabels(parentElement, tag);
