@@ -58,12 +58,22 @@ body {
 
 .ssldc-item{
   display: flex;
+  margin-left: 2%;
+  background-color: var(--parent-color);
 }
 
-.hbo-i-activiteit{
+.hbo-i-item{
   display: flex;
+  margin-left: 2%;
+  background-color: var(--parent-color);
 }
 
-.hbo-i-activiteit{
-  display: flex;
+.hbo-i-vaardigheid{
+  margin-left: 2%;
+  background-color: var(--child-child-color);
+}
+
+.hbo-i-activiteiten{
+  margin-left: 2%;
+  background-color: var(--child-color);
 }
