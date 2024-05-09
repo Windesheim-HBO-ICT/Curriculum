@@ -8,8 +8,6 @@ template.innerHTML = `
 `;
 
 class WebNavbar extends HTMLElement {
-  iteration;
-  firstTime;
   shadowRoot;
 
   attachStyling() {
@@ -31,64 +29,85 @@ class WebNavbar extends HTMLElement {
     this.attachStyling();
   }
 
-  buildTree(data, parent, firstTime) {
+  buildTree(data, parent) {
     const ul = document.createElement("div");
-    if (firstTime) {
       ul.classList.add("ssldc-items");
-      firstTime = false;
-    } else {
-      ul.classList.add("hbo-i-items");
-    }
     parent.appendChild(ul);
 
     data.forEach((item) => {
       const ssldc_li = this.shadowRoot.appendChild(
         document.createElement("div")
       );
-      console.log(this.iteration);
-      if (this.iteration === 1) {
-        ssldc_li.classList.add("ssldc-item");
-      } else if (this.iteration === 2) {
-        ssldc_li.classList.add("hbo-i-activiteit");
-      } else if (this.iteration === 3) {
-        ssldc_li.classList.add("hbo-i-item");
-      }
-      //on first time: add ssldc-item
-      // on second time: add hbo-i-item
-      // on third time: addh hbo-i-activiteit
-      // ssldc_li.classList.add("ssldc-item");
+      ssldc_li.classList.add("ssldc-item");
       ssldc_li.textContent = item.naam;
       ul.appendChild(ssldc_li);
+      if (item.labels) {
+        this.buildHboItems(item.labels, ssldc_li);
+      }
+    });
+  }
+
+  buildHboItems(data, parent){
+    const ul = document.createElement("div");
+    ul.classList.add("hbo-i-items");
+    parent.appendChild(ul);
+
+    
+    data.forEach((item) => {
+      const hbo_items = this.shadowRoot.appendChild(
+        document.createElement("div"));
+      hbo_items.classList.add("hbo-i-item");
+      ul.appendChild(hbo_items);
+
+      const hbo_tag = this.shadowRoot.appendChild(
+        document.createElement("div"));
+      hbo_tag.classList.add("hbo-i-tag");
+      hbo_tag.textContent = item.naam;
+      hbo_items.appendChild(hbo_tag);
 
       if (item.vaardigheden) {
         const vaardighedenUl = this.shadowRoot.appendChild(
           document.createElement("div")
         );
         vaardighedenUl.classList.add("hbo-i-activiteiten");
-        ssldc_li.appendChild(vaardighedenUl);
+        hbo_items.appendChild(vaardighedenUl);
 
         item.vaardigheden.forEach((vaardigheid) => {
           const vaardigheidLi = this.shadowRoot.appendChild(
             document.createElement("div")
           );
-          vaardigheidLi.classList.add("hbo-i-vaardigheid");
+          vaardigheidLi.classList.add("hbo-i-activiteit");
 
           vaardigheidLi.textContent = vaardigheid.naam;
           vaardighedenUl.appendChild(vaardigheidLi);
 
           if (vaardigheid.vaardigheden) {
-            this.buildTree(vaardigheid.vaardigheden, vaardighedenUl, firstTime);
+            this.buildHboVaardigheden(vaardigheid.vaardigheden, vaardigheidLi);
             this.iteration = 3;
           }
         });
       }
+    });
+  }
+
+  buildHboVaardigheden(data, parent) {
+    const ul = document.createElement("div");
+      ul.classList.add("hbo-i-vaardigheden");
+    parent.appendChild(ul);
+
+    data.forEach((item) => {
+      const ssldc_li = this.shadowRoot.appendChild(
+        document.createElement("div")
+      );
+      ssldc_li.classList.add("hbo-i-vaardigheid");
+      ssldc_li.textContent = item.naam;
+      ul.appendChild(ssldc_li);
       if (item.labels) {
-        this.iteration = 3;
-        this.buildTree(item.labels, ssldc_li, firstTime);
+        this.buildHboItems(item.labels, ssldc_li);
       }
     });
-    this.iteration = 1;
   }
 }
+
 
 customElements.define("web-navbar", WebNavbar);

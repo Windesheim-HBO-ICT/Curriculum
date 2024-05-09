@@ -51,29 +51,66 @@ body {
   display: flex;
 }
 
-.ssldc-items{
+.ssldc-items {
   font-size: 20px;
   display: block;
 }
 
-.ssldc-item{
+.ssldc-item {
+  background-color: var(--parent-color);
+  width: 25%;
   display: flex;
   margin-left: 2%;
-  background-color: var(--parent-color);
 }
 
-.hbo-i-item{
+.hbo-i-item {
+  font-size: 100%;
   display: flex;
   margin-left: 2%;
-  background-color: var(--parent-color);
+  position: relative;
+  width: 101%;
 }
 
-.hbo-i-vaardigheid{
+.hbo-i-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ff6347; /* Your desired background color */
+  padding: 0 4px; /* Adjust padding to fit the text */
+  z-index: 0; /* Ensure it's behind the text */
+}
+
+
+.hbo-i-vaardigheden {
+  font-size: 100%;
+  margin-left: 2%;
+}
+
+.hbo-i-vaardigheid {
+  font-size: 100%;
+  float: right;
+  /* width: 100%; */
+  display: block;
   margin-left: 2%;
   background-color: var(--child-child-color);
 }
 
-.hbo-i-activiteiten{
+.hbo-i-activiteit {
+  /* width: 120%; */
+  font-size: 100%;
+  float: right;
+  display: flex;
   margin-left: 2%;
+  margin: 0.5%;
   background-color: var(--child-color);
+}
+
+.hbo-i-tag{
+  display:inline;
+  background-color: #ff6347; /* Your desired background color */
+  height: 10%;
+  font-size: 75%;
+  text-align: center;
+  width: 170%;
 }
