@@ -36,25 +36,19 @@ class WebNavbar extends HTMLElement {
   buildTree(data, parent) {
     const ul = document.createElement("div");
     ul.classList.add("ssldc-items");
+    //when clicked show the ssldc-item
+    ul.addEventListener("click", function () {
+      this.className += " active";
+    });
     parent.appendChild(ul);
 
     data.forEach((item) => {
       const ssldc_li = this.shadowRoot.appendChild(
         document.createElement("div")
       );
-
-      const naamWithoutSSLDC = item.naam.replace("SSLDC", "");
-      const sanitizedNaam = naamWithoutSSLDC.trim().replace(/\s+/g, "-");
       ssldc_li.classList.add("ssldc-item");
-      ssldc_li.classList.add(sanitizedNaam);
-
-      const ssldc_item_text = this.shadowRoot.appendChild(
-        document.createElement("div")
-      );
-      ssldc_item_text.classList.add("ssldc-item-text");
-      ssldc_item_text.textContent = item.naam;
-      ssldc_li.appendChild(ssldc_item_text);
-
+      //when clicked show the hbo-i-items
+      ssldc_li.textContent = item.naam;
       ul.appendChild(ssldc_li);
       if (item.labels) {
         this.buildHboItems(item.labels, ssldc_li);
@@ -65,6 +59,8 @@ class WebNavbar extends HTMLElement {
   buildHboItems(data, parent) {
     const ul = document.createElement("div");
     ul.classList.add("hbo-i-items");
+    //when clicked show the hbo-i-activiteiten
+
     parent.appendChild(ul);
 
     data.forEach((item) => {
@@ -77,55 +73,29 @@ class WebNavbar extends HTMLElement {
       const hbo_tag = this.shadowRoot.appendChild(
         document.createElement("div")
       );
-
-      const naamWithoutHBOI = item.naam.replace("HBO-I", "");
-      const sanitizedNaam = naamWithoutHBOI.trim().replace(/\s+/g, "-");
-
       hbo_tag.classList.add("hbo-i-tag");
-      hbo_tag.classList.add(sanitizedNaam);
-
       hbo_tag.textContent = item.naam;
       hbo_items.appendChild(hbo_tag);
 
       if (item.vaardigheden) {
-        const hboActiviteiten = this.shadowRoot.appendChild(
+        const vaardighedenUl = this.shadowRoot.appendChild(
           document.createElement("div")
         );
-        hboActiviteiten.classList.add("hbo-i-activiteiten");
-        hbo_tag.addEventListener("click", function (event) {
-          console.log(this.textContent);
-        });
-        hbo_items.appendChild(hboActiviteiten);
+        vaardighedenUl.classList.add("hbo-i-activiteiten");
+        //when clicked show the hbo-i-vaardigheden
+        hbo_items.appendChild(vaardighedenUl);
 
         item.vaardigheden.forEach((vaardigheid) => {
-          const hboActiviteit = this.shadowRoot.appendChild(
+          const vaardigheidLi = this.shadowRoot.appendChild(
             document.createElement("div")
           );
-          const sanitizedNaam = vaardigheid.naam.trim().replace(/\s+/g, "-");
+          vaardigheidLi.classList.add("hbo-i-activiteit");
 
-          hboActiviteit.classList.add("hbo-i-activiteit");
-          hboActiviteit.classList.add(sanitizedNaam);
-
-          const hboActiviteit_text = this.shadowRoot.appendChild(
-            document.createElement("div")
-          );
-
-          hboActiviteit_text.textContent = vaardigheid.naam;
-          hboActiviteit_text.classList.add("hbo-i-activiteit-text");
-
-          hboActiviteit.addEventListener("click", function (event) {
-            console.log(sanitizedNaam);
-          });
-
-          hboActiviteit.appendChild(hboActiviteit_text);
-          hboActiviteiten.appendChild(hboActiviteit);
+          vaardigheidLi.textContent = vaardigheid.naam;
+          vaardighedenUl.appendChild(vaardigheidLi);
 
           if (vaardigheid.vaardigheden) {
-            this.buildHboVaardigheden(
-              vaardigheid.vaardigheden,
-              hboActiviteit,
-              sanitizedNaam
-            );
+            this.buildHboVaardigheden(vaardigheid.vaardigheden, vaardigheidLi);
             this.iteration = 3;
           }
         });
@@ -133,22 +103,21 @@ class WebNavbar extends HTMLElement {
     });
   }
 
-  buildHboVaardigheden(data, parent, classname) {
-    const hboVaardigheden = document.createElement("div");
-    hboVaardigheden.classList.add("hbo-i-vaardigheden");
-    hboVaardigheden.classList.add(classname);
-    parent.appendChild(hboVaardigheden);
+  buildHboVaardigheden(data, parent) {
+    const ul = document.createElement("div");
+    ul.classList.add("hbo-i-vaardigheden");
+    parent.appendChild(ul);
 
     data.forEach((item) => {
-      const hboVaardigheid = this.shadowRoot.appendChild(
+      const ssldc_li = this.shadowRoot.appendChild(
         document.createElement("div")
       );
-      hboVaardigheid.classList.add("hbo-i-vaardigheid");
-      hboVaardigheid.textContent = item.naam;
-      hboVaardigheden.appendChild(hboVaardigheid);
-      // if (item.labels) {
-      //   this.buildHboItems(item.labels, hboVaardigheid);
-      // }
+      ssldc_li.classList.add("hbo-i-vaardigheid");
+      ssldc_li.textContent = item.naam;
+      ul.appendChild(ssldc_li);
+      if (item.labels) {
+        this.buildHboItems(item.labels, ssldc_li);
+      }
     });
   }
 

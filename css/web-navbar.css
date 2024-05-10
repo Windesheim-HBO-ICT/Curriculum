@@ -24,43 +24,90 @@ body {
     --parent-color: #007373;
     --child-color: #005856;
     --child-child-color: #004140;
+
+    --active-color: bisque;
+
+    --tag-color: #E78575;
+    --tag-active-color: #ED6D52;
   }
 
+.SEMButton{
+  background-color: var(--background-color);
+  border: none;
+  display: inline-block;
+  font-size: 1.0rem;
+  text-decoration: none;
+  text-align: center;
+  margin: 0.8%;
+  width: fit-content;
+  border-radius: 10px;
+}
+
+.SEMButton:hover{
+  background-color: var(--active-color);
+}
+
+.SEMButton:active{
+  background-color: var(--active-color);
+}
+
 .container {
-    max-width: 65rem;
-    padding: 0 2rem;
-    margin: 0 auto;
-    display: flex;
-    position: relative;
+  width: 100%;  
+  height: 7%;
+  padding: 0 2rem;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+  background-color: var(--secundary-color);
 }
 
 .logo-container {
+  font-size: 50%;
   flex: 1;
   display: flex;
 }
 
 .logo {
   color: var(--accent-color);
-  font-size: 1.1rem;
+  font-size: 1.8rem;
+  align-content: center;
   font-weight: 600;
   text-transform: uppercase;
   line-height: 3rem;
-}
-
-.active{
-  display: flex;
+  margin-right: 5%;
+  border-radius: 10%;
 }
 
 .ssldc-items {
   font-size: 20px;
   display: block;
+  width: fit-content;
 }
 
 .ssldc-item {
   background-color: var(--parent-color);
-  width: 25%;
+  width: 100%;
+  height: fit-content;
   display: flex;
+  margin: 2%;
+  border-radius: 10px;
+  justify-content: left;
+  
+}
+
+.ssldc-item-text{
   margin-left: 2%;
+  display: grid;
+  height: fit-content;
+  width: fit-content;
+}
+
+.hbo-i-items{
+  width: 40%;
+  margin-left: 10%;
+  align-items: right;
+  justify-content: right;
+  float: right;
 }
 
 .hbo-i-item {
@@ -68,21 +115,44 @@ body {
   display: flex;
   margin-left: 2%;
   position: relative;
-  width: 101%;
+  width: 120%;
+  justify-content: right;
+  align-items: right;
 }
 
-.hbo-i-item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #ff6347; /* Your desired background color */
-  padding: 0 4px; /* Adjust padding to fit the text */
-  z-index: 0; /* Ensure it's behind the text */
+.hbo-i-tag{
+  border-radius: 10px;
+  margin: 5%;
+  margin-right: 10%;
+  display:flex;
+  background-color: var(--tag-color);
+  font-size: 80%;
+  text-align: center;
+  justify-content: center;
 }
 
+.hbo-i-tag:hover,
+.hbo-i-tag:active{
+  background-color: var(--tag-active-color);
+}
+
+.hbo-i-activiteiten{
+  width: 120%;
+}
+
+.hbo-i-activiteit{
+  background-color: var(--child-color);
+  width: 120%;
+  justify-content: right;
+  align-content: right;
+}
+
+.hbo-i-activiteit:hover{
+  background-color: var(--child-child-color);
+}
 
 .hbo-i-vaardigheden {
+  display: none;
   font-size: 100%;
   margin-left: 2%;
 }
@@ -90,27 +160,12 @@ body {
 .hbo-i-vaardigheid {
   font-size: 100%;
   float: right;
-  /* width: 100%; */
+  width: 100%;
   display: block;
   margin-left: 2%;
   background-color: var(--child-child-color);
 }
 
-.hbo-i-activiteit {
-  /* width: 120%; */
-  font-size: 100%;
-  float: right;
-  display: flex;
-  margin-left: 2%;
-  margin: 0.5%;
-  background-color: var(--child-color);
-}
 
-.hbo-i-tag{
-  display:inline;
-  background-color: #ff6347; /* Your desired background color */
-  height: 10%;
-  font-size: 75%;
-  text-align: center;
-  width: 170%;
-}
+
+
