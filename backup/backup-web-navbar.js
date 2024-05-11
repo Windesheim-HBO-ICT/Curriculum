@@ -33,24 +33,38 @@ class WebNavbar extends HTMLElement {
     this.attachStyling();
   }
 
+  //create tree first part
   buildTree(data, parent) {
+    //create the ssldc-items, this is where all of the other elements will be placed into.
     const ul = document.createElement("div");
     ul.classList.add("ssldc-items");
-    //when clicked show the ssldc-item
-    ul.addEventListener("click", function () {
-      this.className += " active";
-    });
     parent.appendChild(ul);
 
     data.forEach((item) => {
+      //create new element (ssldc-item)
       const ssldc_li = this.shadowRoot.appendChild(
         document.createElement("div")
       );
+
+      //sanitize the name so it can be placed in the classlist.
+      const naamWithoutSSLDC = item.naam.replace("SSLDC", "");
+      const sanitizedNaam = naamWithoutSSLDC.trim().replace(/\s+/g, "-");
       ssldc_li.classList.add("ssldc-item");
-      //when clicked show the hbo-i-items
-      ssldc_li.textContent = item.naam;
+      ssldc_li.classList.add(sanitizedNaam);
+
+      //create element for the name of the class (styling purposes)
+      const ssldc_item_text = this.shadowRoot.appendChild(
+        document.createElement("div")
+      );
+      ssldc_item_text.classList.add("ssldc-item-text");
+      ssldc_item_text.textContent = item.naam;
+      //add text to ssldc-item element
+      ssldc_li.appendChild(ssldc_item_text);
+
+      //add ssldc-item element to the ssldc-items element
       ul.appendChild(ssldc_li);
       if (item.labels) {
+        //call buildHboItems.
         this.buildHboItems(item.labels, ssldc_li);
       }
     });
@@ -58,44 +72,77 @@ class WebNavbar extends HTMLElement {
 
   buildHboItems(data, parent) {
     const ul = document.createElement("div");
+    //create element to place the hbo-i-items into.
     ul.classList.add("hbo-i-items");
-    //when clicked show the hbo-i-activiteiten
-
     parent.appendChild(ul);
 
     data.forEach((item) => {
+      //create hbo-i-item element for each item
       const hbo_items = this.shadowRoot.appendChild(
         document.createElement("div")
       );
       hbo_items.classList.add("hbo-i-item");
       ul.appendChild(hbo_items);
 
+      //create tag/text for styling purposes
       const hbo_tag = this.shadowRoot.appendChild(
         document.createElement("div")
       );
+
+      //sanitize the classname
+      const naamWithoutHBOI = item.naam.replace("HBO-I", "");
+      const sanitizedNaam = naamWithoutHBOI.trim().replace(/\s+/g, "-");
+
       hbo_tag.classList.add("hbo-i-tag");
+      hbo_tag.classList.add(sanitizedNaam);
+
       hbo_tag.textContent = item.naam;
+      //add tag to hbo_item element
       hbo_items.appendChild(hbo_tag);
 
       if (item.vaardigheden) {
-        const vaardighedenUl = this.shadowRoot.appendChild(
+        //create hbo-i-activiteiten element
+        const hboActiviteiten = this.shadowRoot.appendChild(
           document.createElement("div")
         );
-        vaardighedenUl.classList.add("hbo-i-activiteiten");
-        //when clicked show the hbo-i-vaardigheden
-        hbo_items.appendChild(vaardighedenUl);
+        hboActiviteiten.classList.add("hbo-i-activiteiten");
+        //this event listener should make the hbo-i-activiteiten class inside the hbo-i-item class visible. For now it only logs the textcontent of the hbo_tag.
+        hbo_tag.addEventListener("click", function (event) {
+          console.log(this.textContent);
+        });
+        //add the hboo-i-activeiten element to the hbo_items element.
+        hbo_items.appendChild(hboActiviteiten);
 
         item.vaardigheden.forEach((vaardigheid) => {
-          const vaardigheidLi = this.shadowRoot.appendChild(
+          const hboActiviteit = this.shadowRoot.appendChild(
             document.createElement("div")
           );
-          vaardigheidLi.classList.add("hbo-i-activiteit");
+          const sanitizedNaam = vaardigheid.naam.trim().replace(/\s+/g, "-");
 
-          vaardigheidLi.textContent = vaardigheid.naam;
-          vaardighedenUl.appendChild(vaardigheidLi);
+          hboActiviteit.classList.add("hbo-i-activiteit");
+          hboActiviteit.classList.add(sanitizedNaam);
+
+          const hboActiviteit_text = this.shadowRoot.appendChild(
+            document.createElement("div")
+          );
+
+          hboActiviteit_text.textContent = vaardigheid.naam;
+          hboActiviteit_text.classList.add("hbo-i-activiteit-text");
+
+          //this event listener should make the hbo-i-vaardigheiden class inside the hbo-i-activiteiten class visible. For now it only logs the textcontent of the hbo_tag.
+          hboActiviteit.addEventListener("click", function (event) {
+            console.log(sanitizedNaam);
+          });
+
+          hboActiviteit.appendChild(hboActiviteit_text);
+          hboActiviteiten.appendChild(hboActiviteit);
 
           if (vaardigheid.vaardigheden) {
-            this.buildHboVaardigheden(vaardigheid.vaardigheden, vaardigheidLi);
+            this.buildHboVaardigheden(
+              vaardigheid.vaardigheden,
+              hboActiviteit,
+              sanitizedNaam
+            );
             this.iteration = 3;
           }
         });
@@ -103,38 +150,23 @@ class WebNavbar extends HTMLElement {
     });
   }
 
-  buildHboVaardigheden(data, parent) {
-    const ul = document.createElement("div");
-    ul.classList.add("hbo-i-vaardigheden");
-    parent.appendChild(ul);
+  buildHboVaardigheden(data, parent, classname) {
+    const hboVaardigheden = document.createElement("div");
+    hboVaardigheden.classList.add("hbo-i-vaardigheden");
+    hboVaardigheden.classList.add(classname);
+    parent.appendChild(hboVaardigheden);
 
     data.forEach((item) => {
-      const ssldc_li = this.shadowRoot.appendChild(
+      const hboVaardigheid = this.shadowRoot.appendChild(
         document.createElement("div")
       );
-      ssldc_li.classList.add("hbo-i-vaardigheid");
-      ssldc_li.textContent = item.naam;
-      ul.appendChild(ssldc_li);
+      hboVaardigheid.classList.add("hbo-i-vaardigheid");
+      hboVaardigheid.textContent = item.naam;
+      hboVaardigheden.appendChild(hboVaardigheid);
       if (item.labels) {
-        this.buildHboItems(item.labels, ssldc_li);
+        this.buildHboItems(item.labels, hboVaardigheid);
       }
     });
-  }
-
-  onNavClick() {
-    //on nav click
-  }
-
-  onSsldcClick() {
-    //on ssldc click > show hbo-i-items(tags)
-  }
-
-  onHBOTagClick() {
-    //on hbo tag click > show hbo-i-activiteiten
-  }
-
-  onHBOActivityClick() {
-    //on hbo activiteiten click > show hbo-i-vaardigheden
   }
 }
 
