@@ -79,56 +79,64 @@ body {
 }
 
 .ssldc-items {
-  font-size: 20px;
   display: block;
   width: fit-content;
 }
 
 .ssldc-item {
   background-color: var(--parent-color);
-  width: 100%;
-  height: fit-content;
-  display: flex;
+  width: 500px;
+  height: 110px;
+  grid-template-columns: auto 1fr;
   margin: 2%;
   border-radius: 10px;
-  justify-content: left;
-  
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ssldc-item-text{
+  font-size: 30px;
   margin-left: 2%;
   display: grid;
   height: fit-content;
-  width: fit-content;
+  width: 100px;
 }
 
 .hbo-i-items{
+  position: relative;
   width: 40%;
   margin-left: 10%;
-  align-items: right;
-  justify-content: right;
   float: right;
+  width: 200px;
+  height: 110px; 
+  align-items: center; /* Vertically center the content */
 }
 
 .hbo-i-item {
+  margin-top: 20px;
   font-size: 100%;
   display: flex;
   margin-left: 2%;
+  margin-right: 10%;
+  width: 200px;
+  height: 25px;
   position: relative;
-  width: 120%;
-  justify-content: right;
-  align-items: right;
+  align-items: center; /* Vertically center the content */
 }
 
 .hbo-i-tag{
   border-radius: 10px;
-  margin: 5%;
-  margin-right: 10%;
-  display:flex;
   background-color: var(--tag-color);
-  font-size: 80%;
+  font-size: 45%;
+  font-size: 12px;
+  width: 180px;
+  height: 25px; 
+
   text-align: center;
   justify-content: center;
+  align-items: center;
 }
 
 .hbo-i-tag:hover,
@@ -137,6 +145,9 @@ body {
 }
 
 .hbo-i-activiteiten{
+  position: absolute;
+  top: 0;
+  left: 100%;
   width: 120%;
 }
 
@@ -145,6 +156,8 @@ body {
   width: 120%;
   justify-content: right;
   align-content: right;
+  display: grid;
+  position: relative;
 }
 
 .hbo-i-activiteit:hover{
@@ -152,7 +165,10 @@ body {
 }
 
 .hbo-i-vaardigheden {
-  display: flex;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  display: block;
   font-size: 100%;
   margin-left: 2%;
 }
@@ -160,8 +176,8 @@ body {
 .hbo-i-vaardigheid {
   font-size: 100%;
   float: right;
-  width: 100%;
-  display: block;
+  width: 400px;
+  display: flex;
   margin-left: 2%;
   background-color: var(--child-child-color);
 }
