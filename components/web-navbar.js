@@ -31,6 +31,7 @@ class WebNavbar extends HTMLElement {
     });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.attachStyling();
+    console.log("web-navbar");
 
     // Add event listeners to hbo-i-tag elements to toggle visibility of hbo-i-activiteiten
   }
