@@ -1,3 +1,4 @@
+import curriculum from "../data/architectuurlaag/se/curriculum.js";
 const template = document.createElement("template");
 template.innerHTML = `
 <style> 
@@ -24,7 +25,7 @@ template.innerHTML = `
   </main>
 `;
 
-class NavbarComponent extends HTMLElement {
+export default class MobileComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -33,9 +34,6 @@ class NavbarComponent extends HTMLElement {
 
   async connectedCallback() {
     const navButton = this.shadowRoot.querySelector(".nav-btn");
-    const curriculum = await this.getCurriculum();
-    console.log(curriculum);
-
     this.createMenu(navButton, curriculum);
   }
 
@@ -52,7 +50,6 @@ class NavbarComponent extends HTMLElement {
     menuData.forEach((item) => {
       const li = this.createMenuItem(item);
       ul.appendChild(li);
-      console.log("doei");
     });
 
     navLinks.appendChild(ul);
@@ -274,4 +271,4 @@ class NavbarComponent extends HTMLElement {
     }
   }
 }
-customElements.define("navbar-component", NavbarComponent);
+customElements.define("mobile-component", MobileComponent);
