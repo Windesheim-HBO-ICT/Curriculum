@@ -8,7 +8,7 @@ template.innerHTML = `
     <div class="container">
       <input type="checkbox" name="" id="check">
       <div class="logo-container">
-        <h3 class="logo">Curriculum</h3>
+        <h3 class="logo">HBO-ICT Curriculum</h3>
       </div>
       <div class="nav-btn"></div>
       <div class="menu-container">

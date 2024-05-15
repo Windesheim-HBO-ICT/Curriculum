@@ -9,16 +9,15 @@ class CurriculumComponent extends HTMLElement {
 
   connectedCallback() {
     window.addEventListener("resize", () => {
-      // Check if the screen width passes the threshold (1000px)
       if (window.innerWidth < 900 && !this.isMobileRendered) {
         this.renderMobileComponent();
-      } else if (window.innerWidth >= 1000 && !this.isDesktopRendered) {
+      } else if (window.innerWidth >= 900 && !this.isDesktopRendered) {
         this.renderDesktopComponent();
       }
     });
 
     // Initial render based on screen width
-    if (window.innerWidth < 1000) {
+    if (window.innerWidth < 900) {
       this.renderMobileComponent();
     } else {
       this.renderDesktopComponent();

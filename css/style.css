@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 :root {
-  --base-color: teal;
-  --secondary-color: gray;
-  --accent-color: white;
+  --base-color: #f5f6f7;
+  --secondary-color: #f7cd46;
+  --accent-color: black;
   --background-color: lightgray;
+  --secondary--color: #fff578;
+  --accent--color: #f5a61a;
 }
 
 html,
@@ -13,7 +15,7 @@ body {
   padding: 0;
   font-family: "Poppins", sans-serif;
   background-color: var(--base-color);
-  color: var(--accent-color);
+  color: var(--base-color);
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -46,7 +48,7 @@ body {
   justify-content: center;
   font-weight: bold;
   border-radius: 12px;
-  background-color: #007070;
+  background-color: var(--accent--color);
 }
 label {
   font-size: 1.5rem;
@@ -58,8 +60,8 @@ label {
   align-items: center;
 }
 .hbo-i-activiteit {
-  background-color: salmon;
-  border-color: saddlebrown;
+  background-color: var(--secondary-color);
+  border-color: var(--background-color);
   width: auto;
   border-radius: 12px;
   padding-left: 5px;
@@ -73,7 +75,7 @@ label {
 }
 .content-middle {
   height: 88%;
-  background: #007070;
+  background: #fdbd77;
   margin-top: 1%;
   border-radius: 12px;
   overflow: auto;
@@ -107,7 +109,7 @@ label {
 }
 
 .tab.active {
-  background-color: salmon;
+  background-color: var(--secondary-color);
   color: white;
 }
 .tab:hover {
@@ -127,11 +129,12 @@ label {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #333;
+  background-color: white;
   padding: 10px;
   list-style-type: none;
   margin: 0;
-  border: 1px solid #555;
+  border: 1px solid var(--base-color);
+  color: black;
   border-top: none;
 }
 
@@ -146,7 +149,7 @@ label {
 }
 
 .dropdown li:hover {
-  background-color: #555;
+  background-color: var(--base-color);
 }
 
 .content {
@@ -165,7 +168,6 @@ label {
 }
 .content ul {
   padding-left: 20px;
-  border-left: 1px solid #555;
   margin: 1%;
 }
 
@@ -193,6 +195,29 @@ label {
   border-left: 1px solid #555;
   width: 10px;
   height: calc(100% + 20px);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 @media (max-width: 1200px) {

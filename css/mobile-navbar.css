@@ -8,19 +8,20 @@ body {
   font-family: "Poppins", sans-serif;
   overflow: hidden;
 }
-
+:root {
+  --base-color: #f5f6f7;
+  --secondary-color: #f7cd46;
+  --accent-color: black;
+  --background-color: #f5f6f7;
+  --secondary--color: #fff578;
+  --accent--color: #f5a61a;
+}
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-:root {
-  --base-color: teal;
-  --secundary-color: gray;
-  --accent-color: white;
-  --background-color: lightgray;
-}
 .nav-link:hover > .dropdown,
 .dropdown-link:hover > .dropdown {
   transform: translate(0, 0);
@@ -81,7 +82,7 @@ a {
 header {
   position: sticky;
   top: 0px;
-  background-color: var(--secundary-color);
+  background-color: #f7cd46;
   width: 100%;
   z-index: 1000;
 }
@@ -98,7 +99,7 @@ section {
   height: 100%;
   top: 0;
   left: 0;
-  background-color: var(--background-color);
+  background-color: #f5f6f7;
 }
 
 .nav-link.open > a,
@@ -141,7 +142,6 @@ section {
 }
 
 .menu-container {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -217,7 +217,7 @@ section {
   top: 3rem;
   left: 0;
   width: 100%;
-  background-color: var(--base-color);
+  background-color: orange;
   transform: translateX(100%);
   transition: 0.65s;
   flex-direction: column;
@@ -236,7 +236,6 @@ section {
 }
 
 .nav-link > a {
-  color: var(--accent-color);
   padding: 0 0.8rem;
   letter-spacing: 1px;
   font-size: 0.95rem;
@@ -246,6 +245,8 @@ section {
   transition: 0.5s;
   line-height: 1 !important;
   padding: 1.6rem 2rem !important;
+  color: white;
+  font-weight: bold;
 }
 
 .nav-link:hover > a {
@@ -284,12 +285,12 @@ a {
   transform: rotate(90deg);
 }
 .dropdown-link:hover > a {
-  color: var(--accent-color);
+  color: white;
 }
 .dropdown-link > a {
   display: flex;
   background-color: transparent;
-  color: var(--accent-color);
+  color: white;
   padding: 1.2rem 2rem;
   font-size: 0.9rem;
   line-height: 1;
@@ -361,9 +362,9 @@ a {
   padding-left: 2rem;
 }
 .label {
-  border: 1px solid palevioletred;
+  border: 1px solid white;
   padding: 4px;
-  background: salmon;
+  background: #f7cd46;
   margin-right: 2%;
   border-radius: 20px;
   margin-bottom: 1%;
@@ -371,7 +372,7 @@ a {
 }
 
 .label.active {
-  background-color: #ff6347;
+  color: #494c4e;
   animation: shake 0.5s ease;
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.7);
 }
