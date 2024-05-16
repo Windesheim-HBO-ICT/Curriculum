@@ -1,35 +1,73 @@
-import curriculum from "../data/architectuurlaag/se/curriculum.js";
+import softwareCurriculum from "../data/architectuurlaag/se/curriculum.js";
+import organisatieprocessenCurriculum from "../data/architectuurlaag/organisatieprocessen/curriculum.js";
+import gebruikersinteractieCurriculum from "../data/architectuurlaag/gebruikersinteractie/curriculum.js";
+import infrastructureCurriculum from "../data/architectuurlaag/infrastructuur/curriculum.js";
+import hardwareInterfacingCurriculum from "../data/architectuurlaag/hardwareInterfacing/curriculum.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
-  <link rel="stylesheet" href="/css/style.css">
-  <div class="navbar" id="navbar">
-      <div class="brand">HBO-ICT Curriculum</div>
-      <ul class="tabs" id="tabs"></ul>
+    <link rel="stylesheet" href="/css/desktop-navbar.css">
+    <div class="navbar" id="navbar">
+    <div class="name-container">
+        <div class="brand">HBO-ICT Curriculum</div>
+        <select id="curriculumSelect">
+            <option value="software">Software</option>
+            <option value="infrastructuur">Infrastructuur</option>
+            <option value="organisatieprocessen">Organisatie proccessen</option>
+            <option value="hardwareinterfacing">Hardware Interfacing</option>
+            <option value="gebruikersinteractie">Gebruikersinteractie</option>
+            
+        </select>
+        </div>
+        <ul class="tabs" id="tabs"></ul>
     </div>
- <div class="content" id="content">
-  <div class="content-top"> 
-    <div class="ssdlc-fase"> </div>
-    <div class="label"> <div class="hbo-i-activiteit"></div> </div>
-  </div>
-  <div class="content-middle"> </div>
-  <div class="content-bottom"> </div>
- </div>
+    <div class="content" id="content">
+        <div class="content-top"> 
+            <div class="ssdlc-fase"> </div>
+            <div class="label"> <div class="hbo-i-activiteit"></div> </div>
+        </div>
+        <div class="content-middle"></div>
+        <div class="content-bottom"></div>
+    </div>
+    <div class="cards" id="cards"></div>
 `;
-
 export default class DesktopComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    this.curriculum = {
+      software: softwareCurriculum,
+      infrastructuur: infrastructureCurriculum,
+      organisatieprocessen: organisatieprocessenCurriculum,
+      hardwareinterfacing: hardwareInterfacingCurriculum,
+      gebruikersinteractie: gebruikersinteractieCurriculum,
+    };
+
+    this.shadowRoot
+      .querySelector("#curriculumSelect")
+      .addEventListener("change", (event) => {
+        const content = this.shadowRoot.querySelector(".content");
+        if (content.classList.contains("show"))
+          content.classList.remove("show");
+        this.loadCurriculum(event.target.value);
+      });
   }
 
   connectedCallback() {
-    this.buildHeader();
+    this.loadCurriculum(Object.keys(this.curriculum)[0]);
   }
 
-  buildHeader() {
+  loadCurriculum(curriculumName) {
+    const curriculumData = this.curriculum[curriculumName];
+    this.buildHeader(curriculumData);
+    this.buildContent(curriculumData);
+  }
+
+  buildHeader(curriculum) {
     const tabsContainer = this.shadowRoot.getElementById("tabs");
+    tabsContainer.innerHTML = "";
     curriculum.forEach((item) => {
       const tab = document.createElement("li");
       tab.classList.add("tab");
@@ -57,8 +95,7 @@ export default class DesktopComponent extends HTMLElement {
     ssdlcFaseElement.textContent = item.naam;
     hboIActiviteitElement.textContent = label.naam;
 
-    // Voeg de vaardighedenboom toe aan content-middle
-    const vaardigheden = label.vaardigheden || []; // Controleer of vaardigheden aanwezig zijn
+    const vaardigheden = label.vaardigheden || [];
     this.addVaardigheden(vaardigheden);
 
     const content = this.shadowRoot.getElementById("content");
@@ -68,11 +105,8 @@ export default class DesktopComponent extends HTMLElement {
 
   addVaardigheden(vaardigheden) {
     const contentMiddle = this.shadowRoot.querySelector(".content-middle");
-
-    // Leeg de inhoud van content-middle
     contentMiddle.innerHTML = "";
 
-    // Bouw de boomstructuur van de vaardigheden en voeg deze toe aan content-middle
     this.buildTree(vaardigheden, contentMiddle);
   }
 
@@ -97,7 +131,6 @@ export default class DesktopComponent extends HTMLElement {
 
         label.addEventListener("click", () => this.toggleSubtree(li));
 
-        // Hier zetten we alle subbomen op display: none
         const subtree = document.createElement("ul");
         li.appendChild(subtree);
         subtree.style.display = "none";
@@ -105,7 +138,7 @@ export default class DesktopComponent extends HTMLElement {
         this.buildTree(item.vaardigheden, subtree, true);
       } else {
         const childIcon = document.createElement("span");
-        childIcon.textContent = "◆"; // Hier kun je het pictogram voor kinderen aanpassen, bijvoorbeeld een sterretje
+        childIcon.textContent = "◆";
         childIcon.style.marginRight = "5px";
         label.insertBefore(childIcon, label.firstChild);
       }
@@ -138,6 +171,42 @@ export default class DesktopComponent extends HTMLElement {
       tab.classList.remove("active");
     });
     clickedTab.classList.add("active");
+  }
+
+  buildContent(curriculum) {
+    const contentMiddle = this.shadowRoot.querySelector(".cards");
+    contentMiddle.innerHTML = "";
+    const content = this.shadowRoot.querySelector("#content");
+    this.shadowRoot.querySelector(".brand").addEventListener("click", () => {
+      if (content.classList.contains("show")) content.classList.remove("show");
+    });
+    const cardsData = [
+      {
+        title: "SSDLC",
+        description: "Korte uitleg van SSDLC",
+        imageUrl: "/public/ssdlc.png",
+        buttonUrl: "https://snyk.io/learn/secure-sdlc/",
+      },
+      {
+        title: "HBO-I Domeinen",
+        description: "Korte beschrijving van HBO-I Domeinen",
+        imageUrl: "/public/hboi.png",
+        buttonUrl: "https://www.hbo-i.nl/publicaties-domeinbeschrijving",
+      },
+      {
+        title: "Curriculum GitHub",
+        description:
+          "Opensource project voor Windesheim door Windesheim studenten.",
+        imageUrl: "/public/windesheim-logo.png",
+        buttonUrl: "https://github.com/Windesheim-HBO-ICT/Curriculum",
+      },
+    ];
+
+    cardsData.forEach((data) => {
+      const card = document.createElement("card-component");
+      card.setAttribute("data", JSON.stringify(data));
+      contentMiddle.appendChild(card);
+    });
   }
 }
 

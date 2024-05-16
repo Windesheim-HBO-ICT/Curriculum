@@ -1,0 +1,247 @@
+.navbar {
+  background-color: var(--secondary-color);
+  color: var(--accent-color);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: bold;
+  height: 5%;
+}
+.cards {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 90%;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+
+.content {
+  height: 91%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-top {
+  height: 8%;
+
+  border: 1px solid;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 12px;
+  background-color: var(--secondary-color-dark);
+}
+label {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  font-weight: 300;
+}
+.label {
+  display: flex;
+  align-items: center;
+}
+.hbo-i-activiteit {
+  background-color: var(--secondary-color);
+  border-color: var(--background-color);
+  width: auto;
+  border-radius: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 0.1%;
+  font-size: 1.3rem !important;
+  color: var(--accent-color);
+}
+.ssdlc-fase {
+  font-style: italic;
+  font-size: 2rem;
+}
+.content-middle {
+  height: 88%;
+  /* background: var(--base-color); */
+  margin-top: 1%;
+  border-radius: 12px;
+  overflow: auto;
+}
+
+.content-middle ul:first-child {
+  border: 1px solid black;
+  border-radius: 12px;
+}
+
+.content-bottom {
+  height: 4%;
+}
+
+.brand {
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+select {
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  padding: 1%;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+option {
+  background: transparent;
+}
+
+.tabs {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  font-weight: bold;
+  display: flex;
+}
+
+.tab {
+  padding: 10px 50px !important;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  position: relative;
+  font-size: 1.4rem !important;
+}
+
+.tab.active {
+  background-color: var(--secondary-color);
+  color: var(--base-color);
+}
+.tab:hover {
+  border-bottom: 2px solid var(--base-color);
+}
+
+.activiteit-active {
+  background-color: var(--base-color);
+}
+
+.activiteit {
+  display: none;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--base-color);
+  padding: 10px;
+  list-style-type: none;
+  margin: 0;
+  border: 1px solid var(--base-color);
+  color: var(--accent-color);
+  border-top: none;
+}
+
+.tab:hover .dropdown {
+  display: block;
+  animation: fadeInDown 0.5s ease-out;
+}
+
+.dropdown li {
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.dropdown li:hover {
+  background-color: var(--base-color);
+}
+
+.content {
+  padding: 20px;
+  transition: background-color 0.3s ease;
+  display: none;
+}
+
+.show {
+  display: flex;
+}
+
+.active-vaardigheid {
+  font-weight: bold;
+  font-style: italic !important;
+}
+.content ul {
+  padding-left: 20px;
+  margin: 1%;
+}
+
+.content li {
+  font-size: 18px;
+  margin: 1%;
+}
+
+/* Tree styling */
+.tree li {
+  position: relative;
+}
+
+.tree ul {
+  padding-left: 20px;
+  border-left: 1px solid #555;
+}
+
+.tree li::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  border-top: 1px solid #555;
+  border-left: 1px solid #555;
+  width: 10px;
+  height: calc(100% + 20px);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+@media (max-width: 1400px) {
+  .tab {
+    padding: 5px 10px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .brand {
+    font-size: 1.3rem !important;
+  }
+}
+
+@media (max-width: 1900px) {
+  .brand {
+    font-size: 1.4rem !important;
+  }
+  select {
+    font-size: 1rem;
+  }
+}

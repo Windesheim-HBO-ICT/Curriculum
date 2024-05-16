@@ -4,7 +4,7 @@ import deployment from "./ssdlc/deployment.js";
 import testing from "./ssdlc/testing.js";
 import development from "./ssdlc/development.js";
 
-const softwareCurriculum = [
+const organisatieprocessenCurriculum = [
   {
     naam: "SSDLC Requirements",
     labels: requirements,
@@ -27,4 +27,4 @@ const softwareCurriculum = [
   },
 ];
 
-export default softwareCurriculum;
+export default organisatieprocessenCurriculum;
