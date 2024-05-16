@@ -34,7 +34,7 @@ class NavbarComponent extends HTMLElement {
   async connectedCallback() {
     const navButton = this.shadowRoot.querySelector(".nav-btn");
     const curriculum = await this.getCurriculum();
-    console.log(curriculum);
+    console.log("mobile-navbar");
 
     this.createMenu(navButton, curriculum);
   }
@@ -52,7 +52,6 @@ class NavbarComponent extends HTMLElement {
     menuData.forEach((item) => {
       const li = this.createMenuItem(item);
       ul.appendChild(li);
-      console.log("doei");
     });
 
     navLinks.appendChild(ul);
