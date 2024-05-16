@@ -1,9 +1,9 @@
-import CardComponent from "./card-component.js";
-import softwareCurriculum from "../data/architectuurlaag/se/curriculum.js";
+import softwareCurriculum from "../data/architectuurlaag/software/curriculum.js";
 import organisatieprocessenCurriculum from "../data/architectuurlaag/organisatieprocessen/curriculum.js";
 import gebruikersinteractieCurriculum from "../data/architectuurlaag/gebruikersinteractie/curriculum.js";
 import infrastructureCurriculum from "../data/architectuurlaag/infrastructuur/curriculum.js";
 import hardwareInterfacingCurriculum from "../data/architectuurlaag/hardwareInterfacing/curriculum.js";
+import CardComponent from "./card-component.js";
 const template = document.createElement("template");
 template.innerHTML = `
   <link rel="stylesheet" href="/css/mobile-navbar.css">

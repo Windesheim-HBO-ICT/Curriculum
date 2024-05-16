@@ -22,10 +22,6 @@ Dit component is een webcomponent dat het huidige curriculum weergeeft van Hoges
    <link rel="stylesheet" href="/css/style.css" s />
    ```
 
-## Aanpassingen
-
-Het Curriculum Component kan worden aangepast aan de hand van je specifieke curriculumdata. Zorg ervoor dat je de juiste curriculumdata definieert en doorgeeft aan het component om de navigatiebalk correct te laten werken.
-
 ## Voorbeeld
 
 Hieronder vind je een eenvoudig voorbeeld van een HTML-bestand met het Curriculum Component geïntegreerd:
@@ -45,3 +41,86 @@ Hieronder vind je een eenvoudig voorbeeld van een HTML-bestand met het Curriculu
   </body>
 </html>
 ```
+
+## Curriculum data toevoegen
+
+Om nieuwe curriculuminformatie toe te voegen, volg je deze stappen:
+
+1. **Definieer Curriculumdata:**
+   Zorg ervoor dat je de juiste curriculumdata definieert die nodig zijn voor het aanpassen van het Curriculum Component. Dit helpt om de navigatiebalk correct te laten werken.
+
+2. **Navigeer naar de Architectuurlagen:**
+   Ga naar de map 'data/architectuurlagen'. Hier vind je de 5 architectuurlagen zoals beschreven in het hbo i model.
+
+3. **Selecteer de Juiste Architectuurlaag:**
+   Open de map van de relevante architectuurlaag waarin je curriculuminformatie wilt toevoegen.!![alt text](image-2.png)
+
+4. **Navigeer naar de SSDLc Fasen:**
+   Binnen de geselecteerde architectuurlaag vind je een map genaamd 'ssdlc'. Open deze map.
+
+5. **Voeg Curriculumdata Toe:**
+   Binnen de 'ssdlc' map vind je mappen voor alle SSDLc fasen. Open de specifieke fase waarin je curriculuminformatie wilt toevoegen.
+
+6. **Voeg HBO-I Activiteiten Toe:**
+   Voor het toevoegen van curriculumdata binnen een SSDLc fase, voeg je HBO-I activiteiten toe.
+
+7. **HBO-I Activiteit zonder Subvaardigheden:**
+
+   ```javascript
+   const curriculumData = [
+     {
+       naam: "HBO-I Realiseren",
+       vaardigheden: [
+         { naam: "Applicatie testen" },
+         { naam: "Applicatie implementeren" },
+       ],
+     },
+   ];
+   ```
+
+   - **HBO-I Activiteit met Subvaardigheden:**
+
+     ```javascript
+     const curriculumData = [
+       {
+         naam: "HBO-I Ontwerpen",
+         vaardigheden: [
+           {
+             naam: "Ontwerp principes toepassen",
+             vaardigheden: [
+               { naam: "Toepassen van SOLID-principes" },
+               { naam: "Gebruik van design patterns" },
+             ],
+           },
+         ],
+       },
+     ];
+     ```
+
+   - **Meerdere HBO-I Activiteiten:**
+
+     ```javascript
+     const curriculumData = [
+       {
+         naam: "HBO-I Analyseren",
+         vaardigheden: [
+           { naam: "Requirements analyseren" },
+           { naam: "Systeemarchitectuur evalueren" },
+         ],
+       },
+       {
+         naam: "HBO-I Ontwerpen",
+         vaardigheden: [
+           { naam: "Architectuur ontwerpen" },
+           { naam: "Gebruikersinterface ontwerpen" },
+         ],
+       },
+       {
+         naam: "HBO-I Realiseren",
+         vaardigheden: [
+           { naam: "Applicatie ontwikkelen" },
+           { naam: "Database modelleren" },
+         ],
+       },
+     ];
+     ```
