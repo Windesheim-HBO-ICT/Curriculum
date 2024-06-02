@@ -7,23 +7,23 @@ import development from "./ssdlc/development.js";
 const infrastructureCurriculum = [
   {
     naam: "SSDLC Requirements",
-    labels: requirements,
+    activiteiten: requirements,
   },
   {
     naam: "SSDLC Design",
-    labels: design,
+    activiteiten: design,
   },
   {
     naam: "SSDLC Development",
-    labels: development,
+    activiteiten: development,
   },
   {
     naam: "SSDLC Testing",
-    labels: testing,
+    activiteiten: testing,
   },
   {
     naam: "SSDLC Deployment",
-    labels: deployment,
+    activiteiten: deployment,
   },
 ];
 

@@ -76,7 +76,7 @@ export default class DesktopComponent extends HTMLElement {
 
       const dropdown = document.createElement("ul");
       dropdown.classList.add("dropdown");
-      item.labels.forEach((label) => {
+      item.activiteiten.forEach((label) => {
         const dropdownItem = document.createElement("li");
         dropdownItem.textContent = label.naam;
         dropdown.appendChild(dropdownItem);

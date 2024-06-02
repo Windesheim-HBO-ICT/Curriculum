@@ -103,21 +103,21 @@ export default class MobileComponent extends HTMLElement {
     a.textContent = item.naam;
     li.appendChild(a);
 
-    if (item.labels && item.labels.length > 0) {
-      this.createLabels(li, item.labels);
+    if (item.activiteiten && item.activiteiten.length > 0) {
+      this.createLabels(li, item.activiteiten);
     }
 
     return li;
   }
 
   /**
-   * Creates labels for sub-menu items and adds click event listeners to toggle their visibility.
-   * @param {HTMLElement} parentElement - The parent element to which labels will be appended.
+   * Creates activiteiten for sub-menu items and adds click event listeners to toggle their visibility.
+   * @param {HTMLElement} parentElement - The parent element to which activiteiten will be appended.
    * @param {Array} vaardigheden - The data for the sub-menu items.
    */
   createLabels(parentElement, vaardigheden) {
     const tags = document.createElement("div");
-    tags.className = "labels";
+    tags.className = "activiteiten";
     vaardigheden.forEach((child) => {
       const tag = document.createElement("div");
       tag.textContent = "📂 " + child.naam;
@@ -133,8 +133,8 @@ export default class MobileComponent extends HTMLElement {
   }
 
   /**
-   * Toggles the active state of labels and closes any open dropdowns not associated with the clicked label.
-   * @param {HTMLElement} parentElement - The parent element containing labels and dropdowns.
+   * Toggles the active state of activiteiten and closes any open dropdowns not associated with the clicked label.
+   * @param {HTMLElement} parentElement - The parent element containing activiteiten and dropdowns.
    * @param {HTMLElement} clickedLabel - The label that was clicked.
    */
   toggleLabels(parentElement, clickedLabel) {
@@ -151,7 +151,7 @@ export default class MobileComponent extends HTMLElement {
 
   /**
    * Toggles the visibility of dropdown menus based on the clicked label and closes unrelated open dropdowns.
-   * @param {HTMLElement} parentElement - The parent element containing labels and dropdowns.
+   * @param {HTMLElement} parentElement - The parent element containing activiteiten and dropdowns.
    * @param {Array} dropdownData - The data for the dropdown items.
    * @param {number} level - The depth level of the dropdown.
    */
