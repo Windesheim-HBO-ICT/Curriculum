@@ -4,6 +4,7 @@ import gebruikersinteractieCurriculum from "../data/architectuurlaag/gebruikersi
 import infrastructureCurriculum from "../data/architectuurlaag/infrastructuur/curriculum.js";
 import hardwareInterfacingCurriculum from "../data/architectuurlaag/hardwareInterfacing/curriculum.js";
 import CardComponent from "./card-component.js";
+
 const template = document.createElement("template");
 template.innerHTML = `
     <link rel="stylesheet" href="/css/desktop-navbar.css">
@@ -13,7 +14,7 @@ template.innerHTML = `
         <select id="curriculumSelect">
             <option value="software">Software</option>
             <option value="infrastructuur">Infrastructuur</option>
-            <option value="organisatieprocessen">Organisatie proccessen</option>
+            <option value="organisatieprocessen">Organisatie processen</option>
             <option value="hardwareinterfacing">Hardware Interfacing</option>
             <option value="gebruikersinteractie">Gebruikersinteractie</option>
             
@@ -31,15 +32,6 @@ template.innerHTML = `
     </div>
     <div class="cards" id="cards"></div>
 `;
-
-
-const backgroundColors = {
-  "SSDLC Requirements": "rgba(26, 191, 161, 0.7)",
-  "SSDLC Design": "rgba(56, 141, 205, 0.75)",
-  "SSDLC Testing": "rgba(225, 67, 152, 0.75)",
-  "SSDLC Development": "rgba(236, 165, 75, 0.75)",
-  "SSDLC Deployment": "rgba(239, 115, 63, 0.75)"
-};
 
 export default class DesktopComponent extends HTMLElement {
   constructor() {
@@ -83,10 +75,9 @@ export default class DesktopComponent extends HTMLElement {
       tab.classList.add("tab");
       tab.textContent = item.naam;
 
-
-      const backgroundColor = backgroundColors[item.naam];
+      const backgroundColor = item.backgroundColor;
       if (backgroundColor) {
-          tab.style.backgroundColor = backgroundColor;
+        tab.style.backgroundColor = backgroundColor;
       }
       
       tabsContainer.appendChild(tab);
@@ -112,10 +103,10 @@ export default class DesktopComponent extends HTMLElement {
       this.shadowRoot.querySelector(".hbo-i-activiteit");
     const contenttop = this.shadowRoot.querySelector(".content-top");
     ssdlcFaseElement.textContent = item.naam;
-
-    const backgroundColor = backgroundColors[item.naam];
+    
+    const backgroundColor = item.backgroundColor;
     if (backgroundColor) {
-        contenttop.style.backgroundColor = backgroundColor;
+      contenttop.style.backgroundColor = backgroundColor;
     }
 
     hboIActiviteitElement.textContent = label.naam;
