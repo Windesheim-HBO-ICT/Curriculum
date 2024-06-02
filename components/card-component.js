@@ -20,7 +20,7 @@ export default class CardComponent extends HTMLElement {
                         flex-direction: column;
                         padding: 5%;
                         margin: 1%;
-                        background: whitesmoke;
+                        background: white;
                         max-width: 500px;
                     }
                       .card img {

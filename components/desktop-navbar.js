@@ -73,7 +73,7 @@ export default class DesktopComponent extends HTMLElement {
       tab.classList.add("tab");
       tab.textContent = item.naam;
       tabsContainer.appendChild(tab);
-
+      tab.setAttribute("data-color", item.kleur);
       const dropdown = document.createElement("ul");
       dropdown.classList.add("dropdown");
       item.activiteiten.forEach((label) => {
@@ -171,6 +171,8 @@ export default class DesktopComponent extends HTMLElement {
       tab.classList.remove("active");
     });
     clickedTab.classList.add("active");
+    const color = clickedTab.getAttribute("data-color");
+    this.shadowRoot.querySelector(".content-top").style.backgroundColor = color;
   }
 
   buildContent(curriculum) {

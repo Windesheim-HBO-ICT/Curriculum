@@ -100,6 +100,7 @@ export default class MobileComponent extends HTMLElement {
     const li = document.createElement("li");
     li.classList.add("nav-link");
     const a = document.createElement("a");
+    li.style.backgroundColor = item.kleur;
     a.textContent = item.naam;
     li.appendChild(a);
 

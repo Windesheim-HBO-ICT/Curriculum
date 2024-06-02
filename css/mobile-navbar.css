@@ -67,7 +67,7 @@ a {
 }
 .container {
   max-width: 65rem;
-  padding: 0 2rem;
+  padding: 1px 2rem;
   margin: 0 auto;
   display: flex;
   position: relative;
@@ -96,7 +96,6 @@ section {
   height: 100%;
   top: 0;
   left: 0;
-  background-color: var(--background-color-light);
 }
 
 card-component {
@@ -221,7 +220,7 @@ card-component {
   top: 4.4rem;
   left: 0;
   width: 100%;
-  background-color: var(--background-color-dark);
+  background-color: var(--secondary-color);
   transform: translateX(100%);
   transition: 0.65s;
   flex-direction: column;
@@ -354,7 +353,7 @@ a {
   background-color: var(--base-color);
 }
 
-.labels {
+.activiteiten {
   display: flex;
   font-size: 0.7rem;
   font-weight: 600;
@@ -366,7 +365,6 @@ a {
   padding-left: 2rem;
 }
 .label {
-  border: 1px solid white;
   padding: 4px;
   background: var(--secondary-color);
   margin-right: 2%;

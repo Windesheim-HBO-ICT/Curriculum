@@ -63,19 +63,13 @@ label {
 }
 .content-middle {
   height: 88%;
-  /* background: var(--base-color); */
   margin-top: 1%;
   border: 1px solid black;
   border-radius: 12px;
   overflow: auto;
 }
 
-/* .content-middle > ul:first-child {
-  border: 1px solid black;
-  border-radius: 12px;
-} */
-
-.content-middle > ul:first-child ul {
+.content-middle > ul:first-child ul:first-child {
   border-left: 1px solid black;
 }
 
