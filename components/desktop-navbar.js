@@ -31,16 +31,6 @@ template.innerHTML = `
     </div>
     <div class="cards" id="cards"></div>
 `;
-
-
-const backgroundColors = {
-  "SSDLC Requirements": "rgba(26, 191, 161, 0.7)",
-  "SSDLC Design": "rgba(56, 141, 205, 0.75)",
-  "SSDLC Testing": "rgba(225, 67, 152, 0.75)",
-  "SSDLC Development": "rgba(236, 165, 75, 0.75)",
-  "SSDLC Deployment": "rgba(239, 115, 63, 0.75)"
-};
-
 export default class DesktopComponent extends HTMLElement {
   constructor() {
     super();
@@ -82,13 +72,6 @@ export default class DesktopComponent extends HTMLElement {
       const tab = document.createElement("li");
       tab.classList.add("tab");
       tab.textContent = item.naam;
-
-
-      const backgroundColor = backgroundColors[item.naam];
-      if (backgroundColor) {
-          tab.style.backgroundColor = backgroundColor;
-      }
-      
       tabsContainer.appendChild(tab);
 
       const dropdown = document.createElement("ul");
@@ -106,18 +89,10 @@ export default class DesktopComponent extends HTMLElement {
   }
 
   showTree(item, label, event) {
-    
     const ssdlcFaseElement = this.shadowRoot.querySelector(".ssdlc-fase");
     const hboIActiviteitElement =
       this.shadowRoot.querySelector(".hbo-i-activiteit");
-    const contenttop = this.shadowRoot.querySelector(".content-top");
     ssdlcFaseElement.textContent = item.naam;
-
-    const backgroundColor = backgroundColors[item.naam];
-    if (backgroundColor) {
-        contenttop.style.backgroundColor = backgroundColor;
-    }
-
     hboIActiviteitElement.textContent = label.naam;
 
     const vaardigheden = label.vaardigheden || [];
@@ -161,7 +136,6 @@ export default class DesktopComponent extends HTMLElement {
         subtree.style.display = "none";
 
         this.buildTree(item.vaardigheden, subtree, true);
-        this.toggleSubtree(li);
       } else {
         const childIcon = document.createElement("span");
         childIcon.textContent = "◆";
