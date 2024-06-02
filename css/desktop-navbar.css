@@ -27,7 +27,6 @@
 
 .content-top {
   height: 8%;
-
   border: 1px solid;
   padding: 10px;
   display: flex;
@@ -111,7 +110,10 @@ option {
   cursor: pointer;
   border-bottom: 2px solid transparent;
   position: relative;
-  font-size: 1.4rem !important;
+  font-size: 1.2rem !important;
+  border-radius: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .tab.active {
