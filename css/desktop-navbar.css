@@ -65,14 +65,15 @@ label {
   height: 88%;
   /* background: var(--base-color); */
   margin-top: 1%;
+  border: 1px solid black;
   border-radius: 12px;
   overflow: auto;
 }
 
-.content-middle > ul:first-child {
+/* .content-middle > ul:first-child {
   border: 1px solid black;
   border-radius: 12px;
-}
+} */
 
 .content-middle > ul:first-child ul {
   border-left: 1px solid black;
