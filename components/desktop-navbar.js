@@ -11,11 +11,7 @@ template.innerHTML = `
     <div class="name-container">
         <div class="brand">HBO-ICT Curriculum</div>
         <select id="curriculumSelect">
-            <option value="software">Software</option>
-            <option value="infrastructuur">Infrastructuur</option>
-            <option value="organisatieprocessen">Organisatie proccessen</option>
-            <option value="hardwareinterfacing">Hardware Interfacing</option>
-            <option value="gebruikersinteractie">Gebruikersinteractie</option>
+       
             
         </select>
         </div>
@@ -36,14 +32,7 @@ export default class DesktopComponent extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-
-    this.curriculum = {
-      software: softwareCurriculum,
-      infrastructuur: infrastructureCurriculum,
-      organisatieprocessen: organisatieprocessenCurriculum,
-      hardwareinterfacing: hardwareInterfacingCurriculum,
-      gebruikersinteractie: gebruikersinteractieCurriculum,
-    };
+    this.curriculum = {};
 
     this.shadowRoot
       .querySelector("#curriculumSelect")
@@ -56,7 +45,16 @@ export default class DesktopComponent extends HTMLElement {
   }
 
   connectedCallback() {
-    this.loadCurriculum(Object.keys(this.curriculum)[0]);
+    const resourcesAttr = this.getAttribute("resources");
+    if (resourcesAttr) {
+      const resources = JSON.parse(resourcesAttr);
+      this.curriculum = resources;
+      console.log(resources);
+      this.loadCurriculum(Object.keys(this.curriculum)[0]);
+      this.buildSelectOptions(Object.keys(this.curriculum));
+    } else {
+      console.error("No resources attribute provided.");
+    }
   }
 
   loadCurriculum(curriculumName) {
@@ -64,27 +62,41 @@ export default class DesktopComponent extends HTMLElement {
     this.buildHeader(curriculumData);
     this.buildContent(curriculumData);
   }
-
   buildHeader(curriculum) {
     const tabsContainer = this.shadowRoot.getElementById("tabs");
     tabsContainer.innerHTML = "";
-    curriculum.forEach((item) => {
-      const tab = document.createElement("li");
-      tab.classList.add("tab");
-      tab.textContent = item.naam;
-      tabsContainer.appendChild(tab);
-      tab.setAttribute("data-color", item.kleur);
-      const dropdown = document.createElement("ul");
-      dropdown.classList.add("dropdown");
-      item.activiteiten.forEach((label) => {
-        const dropdownItem = document.createElement("li");
-        dropdownItem.textContent = label.naam;
-        dropdown.appendChild(dropdownItem);
-        dropdownItem.addEventListener("click", (event) => {
-          this.showTree(item, label, event);
-        });
+    if (curriculum) {
+      curriculum.forEach((item) => {
+        const tab = document.createElement("li");
+        tab.classList.add("tab");
+        tab.textContent = item.naam;
+        tabsContainer.appendChild(tab);
+        tab.setAttribute("data-color", item.kleur);
+        const dropdown = document.createElement("ul");
+        dropdown.classList.add("dropdown");
+        if (item.activiteiten) {
+          item.activiteiten.forEach((label) => {
+            const dropdownItem = document.createElement("li");
+            dropdownItem.textContent = label.naam;
+            dropdown.appendChild(dropdownItem);
+            dropdownItem.addEventListener("click", (event) => {
+              this.showTree(item, label, event);
+            });
+          });
+          tab.appendChild(dropdown);
+        }
       });
-      tab.appendChild(dropdown);
+    }
+  }
+
+  buildSelectOptions(options) {
+    const select = this.shadowRoot.querySelector("#curriculumSelect");
+    select.innerHTML = "";
+    options.forEach((option) => {
+      const optionElement = document.createElement("option");
+      optionElement.value = option;
+      optionElement.textContent = option;
+      select.appendChild(optionElement);
     });
   }
 
@@ -125,16 +137,14 @@ export default class DesktopComponent extends HTMLElement {
 
       if (item.vaardigheden) {
         const toggleIcon = document.createElement("span");
-        toggleIcon.textContent = "▶";
+        toggleIcon.textContent = "▼";
         toggleIcon.classList.add("toggle-icon");
         label.insertBefore(toggleIcon, label.firstChild);
-
         label.addEventListener("click", () => this.toggleSubtree(li));
-
+        label.classList.add("active-vaardigheid");
         const subtree = document.createElement("ul");
         li.appendChild(subtree);
-        subtree.style.display = "none";
-
+        subtree.style.display = "block";
         this.buildTree(item.vaardigheden, subtree, true);
       } else {
         const childIcon = document.createElement("span");
@@ -152,11 +162,12 @@ export default class DesktopComponent extends HTMLElement {
       subtree.style.display = isOpen ? "none" : "block";
       const toggleIcon = parentNode.querySelector(".toggle-icon");
       toggleIcon.textContent = isOpen ? "▶" : "▼";
+
       const label = parentNode.querySelector("label");
       if (isOpen) {
-        if (label.classList.contains("active-vaardigheid"))
+        if (label.classList.contains("active-vaardigheid")) {
           label.classList.remove("active-vaardigheid");
-        console.log("add");
+        }
       } else {
         label.classList.add("active-vaardigheid");
       }

@@ -1,8 +1,3 @@
-import softwareCurriculum from "../data/architectuurlaag/software/curriculum.js";
-import organisatieprocessenCurriculum from "../data/architectuurlaag/organisatieprocessen/curriculum.js";
-import gebruikersinteractieCurriculum from "../data/architectuurlaag/gebruikersinteractie/curriculum.js";
-import infrastructureCurriculum from "../data/architectuurlaag/infrastructuur/curriculum.js";
-import hardwareInterfacingCurriculum from "../data/architectuurlaag/hardwareInterfacing/curriculum.js";
 import CardComponent from "./card-component.js";
 const template = document.createElement("template");
 template.innerHTML = `
@@ -13,11 +8,6 @@ template.innerHTML = `
       <div class="logo-container">
         <h3 class="logo">HBO-ICT Curriculum</h3>
         <select id="curriculumSelect">
-        <option value="software">Software</option>
-        <option value="infrastructuur">Infrastructuur</option>
-        <option value="organisatieprocessen">Organisatie proccessen</option>
-        <option value="hardwareinterfacing">Hardware Interfacing</option>
-        <option value="gebruikersinteractie">Gebruikersinteractie</option>
     </select>
       </div>
       <div class="nav-btn"></div>
@@ -40,13 +30,7 @@ export default class MobileComponent extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.curriculum = {
-      software: softwareCurriculum,
-      infrastructuur: infrastructureCurriculum,
-      organisatieprocessen: organisatieprocessenCurriculum,
-      hardwareinterfacing: hardwareInterfacingCurriculum,
-      gebruikersinteractie: gebruikersinteractieCurriculum,
-    };
+    this.curriculum = {};
   }
 
   loadCurriculum(curriculumName) {
@@ -80,7 +64,6 @@ export default class MobileComponent extends HTMLElement {
     const navButton = this.shadowRoot.querySelector(".nav-btn");
     const selector = this.shadowRoot.querySelector("#curriculumSelect");
 
-    // Listen for change event from the select element
     selector.addEventListener("change", (event) => {
       const selectedCurriculum = event.target.value;
       const navButton = this.shadowRoot.querySelector(".nav-btn");
@@ -88,8 +71,32 @@ export default class MobileComponent extends HTMLElement {
       this.createMenu(navButton, curriculumData);
     });
 
-    this.createMenu(navButton, this.curriculum.software);
+    const resourcesAttr = this.getAttribute("resources");
+    if (resourcesAttr) {
+      const resources = JSON.parse(resourcesAttr);
+      this.curriculum = resources;
+      this.createMenu(
+        navButton,
+        this.curriculum[Object.keys(this.curriculum)[0]]
+      );
+
+      this.buildSelectOptions(Object.keys(this.curriculum));
+    } else {
+      console.error("No resources attribute provided.");
+    }
+
     this.createCards();
+  }
+
+  buildSelectOptions(options) {
+    const select = this.shadowRoot.querySelector("#curriculumSelect");
+    select.innerHTML = "";
+    options.forEach((option) => {
+      const optionElement = document.createElement("option");
+      optionElement.value = option;
+      optionElement.textContent = option;
+      select.appendChild(optionElement);
+    });
   }
   /**
    * Creates a menu item (list item) based on the provided item data.

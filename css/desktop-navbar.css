@@ -170,6 +170,7 @@ option {
 .active-vaardigheid {
   font-weight: bold;
   font-style: italic !important;
+  display: block;
 }
 .content ul {
   padding-left: 20px;
