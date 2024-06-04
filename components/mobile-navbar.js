@@ -2,6 +2,7 @@ import CardComponent from "./card-component.js";
 const template = document.createElement("template");
 template.innerHTML = `
   <link rel="stylesheet" href="/css/mobile-navbar.css">
+  <div class="main">
   <header>
     <div class="container">
       <input type="checkbox" name="" id="check">
@@ -24,6 +25,7 @@ template.innerHTML = `
       </div>
     </section>
   </main>
+  </div>
 `;
 export default class MobileComponent extends HTMLElement {
   constructor() {
@@ -32,13 +34,53 @@ export default class MobileComponent extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.curriculum = {};
   }
-
   loadCurriculum(curriculumName) {
     const curriculumData = this.curriculum[curriculumName];
     const navButton = this.shadowRoot.querySelector(".nav-btn");
     this.createMenu(navButton, curriculumData);
     this.createCards();
   }
+  async connectedCallback() {
+    this.initializeNavigation();
+    this.loadResources();
+  }
+
+  initializeNavigation() {
+    const navButton = this.shadowRoot.querySelector(".nav-btn");
+    const selector = this.shadowRoot.querySelector("#curriculumSelect");
+
+    selector.addEventListener("change", (event) => {
+      this.handleCurriculumChange(event.target.value);
+    });
+  }
+
+  async loadResources() {
+    const resourcesAttr = this.getAttribute("resources");
+    if (resourcesAttr) {
+      try {
+        this.curriculum = JSON.parse(resourcesAttr);
+        const defaultCurriculum =
+          this.curriculum[Object.keys(this.curriculum)[0]];
+        this.createMenu(
+          this.shadowRoot.querySelector(".nav-btn"),
+          defaultCurriculum
+        );
+        this.buildSelectOptions(Object.keys(this.curriculum));
+      } catch (error) {
+        console.error("Error parsing resources attribute:", error);
+      }
+    } else {
+      console.error("No resources attribute provided.");
+    }
+
+    this.createCards();
+  }
+
+  handleCurriculumChange(selectedCurriculum) {
+    const curriculumData = this.curriculum[selectedCurriculum];
+    this.createMenu(this.shadowRoot.querySelector(".nav-btn"), curriculumData);
+  }
+
   /**
    * Creates the navigation menu.
    * @param {HTMLElement} parentElement - The parent element to which the menu will be appended.
@@ -59,35 +101,6 @@ export default class MobileComponent extends HTMLElement {
     navLinks.appendChild(ul);
     parentElement.appendChild(navLinks);
   }
-
-  async connectedCallback() {
-    const navButton = this.shadowRoot.querySelector(".nav-btn");
-    const selector = this.shadowRoot.querySelector("#curriculumSelect");
-
-    selector.addEventListener("change", (event) => {
-      const selectedCurriculum = event.target.value;
-      const navButton = this.shadowRoot.querySelector(".nav-btn");
-      const curriculumData = this.curriculum[selectedCurriculum];
-      this.createMenu(navButton, curriculumData);
-    });
-
-    const resourcesAttr = this.getAttribute("resources");
-    if (resourcesAttr) {
-      const resources = JSON.parse(resourcesAttr);
-      this.curriculum = resources;
-      this.createMenu(
-        navButton,
-        this.curriculum[Object.keys(this.curriculum)[0]]
-      );
-
-      this.buildSelectOptions(Object.keys(this.curriculum));
-    } else {
-      console.error("No resources attribute provided.");
-    }
-
-    this.createCards();
-  }
-
   buildSelectOptions(options) {
     const select = this.shadowRoot.querySelector("#curriculumSelect");
     select.innerHTML = "";
@@ -282,9 +295,9 @@ export default class MobileComponent extends HTMLElement {
   }
 
   /**
-   * Creates a link (anchor) element for a menu item with appropriate styling and text content.
-   * @param {Object} item - The data for the menu item.
-   * @param {number} level - The depth level of the menu item.
+   * Creates a dropdown link element with appropriate styling and text content.
+   * @param {Object} item - The data for the dropdown item.
+   * @param {number} level - The depth level of the dropdown.
    * @returns {Object} - An object containing the created list item and anchor elements.
    */
   createDropdownLink(item, level) {
@@ -292,28 +305,23 @@ export default class MobileComponent extends HTMLElement {
     li.classList.add("dropdown-link");
     const a = document.createElement("a");
     a.style.marginLeft = `${level * 10}px`;
-    if (!item.vaardigheden) {
-      li.classList.add("leaf");
-      a.classList.add("leaf");
-    }
-    a.textContent = item.vaardigheden ? "▶ " + item.naam : "◆ " + item.naam;
-    return { li, a };
-  }
 
-  /**
-   * Retrieves the curriculum data asynchronously.
-   * @returns {Promise<Array>} - A promise that resolves to the curriculum data.
-   */
-  async getCurriculum() {
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const architectuurlaag = urlParams.get("architectuurlaag");
-      const moduleUrl = `../data/architectuurlaag/${architectuurlaag}/curriculum.js`;
-      const module = await import(moduleUrl);
-      return module.default;
-    } catch (error) {
-      console.error("Error loading module:", error);
+    a.textContent = item.vaardigheden ? "▶ " : "◆ ";
+
+    if (item.link) {
+      a.href = item.link;
+      a.target = "_blank";
+    } else {
+      if (!item.vaardigheden) {
+        li.classList.add("leaf");
+        a.classList.add("leaf");
+      }
     }
+
+    a.textContent += item.naam;
+
+    li.appendChild(a);
+    return { li, a };
   }
 
   /**
@@ -322,33 +330,16 @@ export default class MobileComponent extends HTMLElement {
   createCards() {
     const contentMiddle = this.shadowRoot.querySelector("section .overlay");
     contentMiddle.innerHTML = "";
-    const cardsData = [
-      {
-        title: "SSDLC",
-        description: "Korte uitleg van SSDLC",
-        imageUrl: "/public/ssdlc.png",
-        buttonUrl: "https://snyk.io/learn/secure-sdlc/",
-      },
-      {
-        title: "HBO-I Domeinen",
-        description: "Korte beschrijving van HBO-I Domeinen",
-        imageUrl: "/public/hboi.png",
-        buttonUrl: "https://www.hbo-i.nl/publicaties-domeinbeschrijving",
-      },
-      {
-        title: "Curriculum GitHub",
-        description:
-          "Opensource project voor Windesheim door Windesheim studenten.",
-        imageUrl: "/public/windesheim-logo.png",
-        buttonUrl: "https://github.com/Windesheim-HBO-ICT/Curriculum",
-      },
-    ];
 
-    cardsData.forEach((data) => {
-      const card = document.createElement("card-component");
-      card.setAttribute("data", JSON.stringify(data));
-      contentMiddle.appendChild(card);
-    });
+    if (this.hasAttribute("cards-data")) {
+      const cardsData = JSON.parse(this.getAttribute("cards-data"));
+
+      cardsData.forEach((data) => {
+        const card = document.createElement("card-component");
+        card.setAttribute("data", JSON.stringify(data));
+        contentMiddle.appendChild(card);
+      });
+    }
   }
 }
 

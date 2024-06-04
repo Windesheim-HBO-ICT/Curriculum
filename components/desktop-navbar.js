@@ -3,6 +3,9 @@ import CardComponent from "./card-component.js";
 const template = document.createElement("template");
 template.innerHTML = `
     <link rel="stylesheet" href="/css/desktop-navbar.css">
+   
+
+    <div class="main">
     <div class="navbar" id="navbar">
         <div class="name-container">
             <div class="brand">HBO-ICT Curriculum</div>
@@ -16,9 +19,10 @@ template.innerHTML = `
             <div class="label"><div class="hbo-i-activiteit"></div></div>
         </div>
         <div class="content-middle"></div>
-        <div class="content-bottom"></div>
+      
     </div>
     <div class="cards" id="cards"></div>
+    </div>
 `;
 
 export default class DesktopComponent extends HTMLElement {
@@ -43,7 +47,7 @@ export default class DesktopComponent extends HTMLElement {
         this.handleCurriculumChange(event.target.value);
       });
     this.shadowRoot.querySelector(".brand").addEventListener("click", () => {
-      this.toggleContentVisibility();
+      this.showCards();
     });
   }
   /**
@@ -69,6 +73,7 @@ export default class DesktopComponent extends HTMLElement {
     const content = this.shadowRoot.querySelector(".content");
     if (content.classList.contains("show")) content.classList.remove("show");
     this.loadCurriculum(curriculumName);
+    this.showCards();
   }
   /**
    * Loads the specified curriculum and updates the view.
@@ -77,7 +82,9 @@ export default class DesktopComponent extends HTMLElement {
   loadCurriculum(curriculumName) {
     const curriculumData = this.curriculum[curriculumName];
     this.buildHeader(curriculumData);
-    this.buildContent(curriculumData);
+
+    if (this.hasAttribute("cards-data"))
+      this.buildContent(JSON.parse(this.getAttribute("cards-data")));
   }
   /**
    * Builds the header tabs based on the curriculum data.
@@ -263,6 +270,8 @@ export default class DesktopComponent extends HTMLElement {
    * @param {HTMLElement} clickedTab - The clicked tab element.
    */
   setActiveTab(clickedTab) {
+    const cards = this.shadowRoot.querySelector(".cards");
+    if (!cards.classList.contains("hide")) cards.classList.add("hide");
     const tabs = this.shadowRoot.querySelectorAll(".tab");
     const content = this.shadowRoot.querySelector(".content");
     if (!content.classList.contains("show")) content.classList.add("show");
@@ -277,50 +286,24 @@ export default class DesktopComponent extends HTMLElement {
   /**
    * Toggles the visibility of the content area.
    */
-  toggleContentVisibility() {
+  showCards() {
     const content = this.shadowRoot.querySelector("#content");
-    content.classList.toggle("show");
+    if (content.classList.contains("show")) content.classList.remove("show");
+    const cards = this.shadowRoot.querySelector(".cards");
+    if (cards.classList.contains("hide")) cards.classList.remove("hide");
   }
   /**
-   * Builds the content section with cards based on the curriculum data.
-   * @param {Object} curriculum - The curriculum data to use.
+   * Builds the content section with cards based on the card data.
+   * @param {Array} cardsData - The card data to use.
    */
-  buildContent(curriculum) {
+  buildContent(cardsData) {
     this.shadowRoot.querySelector(".cards").innerHTML = "";
-    const cardsData = this.getCardsData();
 
     cardsData.forEach((data) => {
       const card = document.createElement("card-component");
       card.setAttribute("data", JSON.stringify(data));
       this.shadowRoot.querySelector(".cards").appendChild(card);
     });
-  }
-  /**
-   * Retrieves the data for the cards to be displayed in the content section.
-   * @returns {Array} - An array of card data objects.
-   */
-  getCardsData() {
-    return [
-      {
-        title: "SSDLC",
-        description: "Korte uitleg van SSDLC",
-        imageUrl: "/public/ssdlc.png",
-        buttonUrl: "https://snyk.io/learn/secure-sdlc/",
-      },
-      {
-        title: "HBO-I Domeinen",
-        description: "Korte beschrijving van HBO-I Domeinen",
-        imageUrl: "/public/hboi.png",
-        buttonUrl: "https://www.hbo-i.nl/publicaties-domeinbeschrijving",
-      },
-      {
-        title: "Curriculum GitHub",
-        description:
-          "Opensource project voor Windesheim door Windesheim studenten.",
-        imageUrl: "/public/windesheim-logo.png",
-        buttonUrl: "https://github.com/Windesheim-HBO-ICT/Curriculum",
-      },
-    ];
   }
 }
 

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 * {
   padding: 0;
   margin: 0;
@@ -10,7 +11,17 @@
   opacity: 1;
   pointer-events: auto;
 }
-
+.main,
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  color: var(--base-color);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
 .logo-container {
   flex: 1;
   display: flex;

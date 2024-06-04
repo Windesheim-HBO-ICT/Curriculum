@@ -9,9 +9,8 @@ export default class CardComponent extends HTMLElement {
                       /* Styles for the card */
                       .card {
                         flex: 1 1 auto; 
-                        width: 500px;
-                        height: 600px; 
-                        margin: 10px;
+                        width: 350px;
+                        height: 450px; 
                         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                         border-radius: 12px;
                         overflow: hidden;
@@ -22,6 +21,8 @@ export default class CardComponent extends HTMLElement {
                         margin: 1%;
                         background: white;
                         max-width: 500px;
+                        
+                       
                     }
                       .card img {
                           height: 40%;
@@ -57,15 +58,20 @@ export default class CardComponent extends HTMLElement {
                           margin-bottom: 10px;
                           color: var(--title-color, black);
                           overflow: hidden;
+                          display: -webkit-box;
+                          -webkit-box-orient: vertical;
+                          -webkit-line-clamp: 1; 
                           text-overflow: ellipsis;
-                          white-space: nowrap;
                       }
     
                       .card-description {
-                          font-size: 16px;
+                        font-size: 0.8rem;
                           margin-bottom: 15px;
                           color: var(--description-color, black);
                           overflow: hidden;
+                          display: -webkit-box;
+                          -webkit-box-orient: vertical;
+                          -webkit-line-clamp: 5; 
                           text-overflow: ellipsis;
                         
                       }
@@ -93,11 +99,21 @@ export default class CardComponent extends HTMLElement {
                       @media (max-width: 900px) {
                         .card {
                     
-                          width: 250px; 
-                          height: 400px;
-                          margin:1%
+                          max-width: 350px; 
+                          max-height: 400px;
+                          margin:5%
                         }
-
+                        .card-description {
+                          font-size: 16px;
+                          margin-bottom: 15px;
+                          color: var(--description-color, black);
+                          overflow: hidden;
+                          display: -webkit-box;
+                          -webkit-box-orient: vertical;
+                          -webkit-line-clamp: 3; 
+                          text-overflow: ellipsis;
+                      }
+                      
                       
                       }
                   </style>

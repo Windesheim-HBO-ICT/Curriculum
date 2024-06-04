@@ -1,126 +1,78 @@
-# Gebruik van Curriculum (Webcomponent)
+# HBO-ICT Curriculum Web Component
 
-Dit component is een webcomponent dat het huidige curriculum weergeeft van Hogeschool Windesheim. Het biedt een navigatie manier aan waarmee studenten door verschillende curriculumonderdelen kunnen bladeren en op een overzichtelijke manier toegang hebben tot relevante informatie.
+Dit webcomponent geeft het curriculum weer van HBO-ICT Windesheim. Het maakt gebruik van een gestructureerd JSON-bestand om de inhoud weer te geven. Door dit component te integreren in je HTML-bestand, kun je eenvoudig het curriculum bekijken.
 
 ## Integratie
 
-1. **Importeer het component script**: Voeg het script voor het Curriculum Component toe aan je HTML-bestand met behulp van de `<script>` tag en het `type="module"` attribuut.
+1. **Importeer het component script:** Voeg het script voor het Curriculum Component toe aan je HTML-bestand met behulp van de `<script>` tag en het type="module" attribuut.
 
-   ```html
-   <script src="/components/curriculum-component.js" type="module"></script>
-   ```
+   `<script src="https://cdn.jsdelivr.net/gh/Windesheim-HBO-ICT/Curriculum/components/curriculum-component.js" type="module"></script>`
 
-2. **Voeg het component toe aan je pagina**: Plaats de `<curriculum-component>` tag in het body-gedeelte van je HTML-bestand om het Curriculum Component op je webpagina weer te geven.
+2. **Voeg de stylesheet toe:** Voeg de bijbehorende stylesheet toe aan je HTML-bestand om de juiste stijl toe te passen op het Curriculum Component.
 
-   ```html
-   <curriculum-component></curriculum-component>
-   ```
+   `<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Windesheim-HBO-ICT/Curriculum/css/style.css" />`
 
-3. **Voeg de stylesheet toe**: Vergeet niet om de bijbehorende stylesheet toe te voegen aan je HTML-bestand om de juiste stijl toe te passen op het Curriculum Component.
-
-   ```html
-   <link rel="stylesheet" href="/css/style.css" s />
-   ```
-
-## Voorbeeld
-
-Hieronder vind je een eenvoudig voorbeeld van een HTML-bestand met het Curriculum Component geïntegreerd:
-
-```html
-<!DOCTYPE html>
-<html lang="nl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="/components/curriculum-component.js" type="module"></script>
-    <link rel="stylesheet" href="/css/style.css" />
-    <title>Curriculum Navigatiebalk - Hogeschool Windesheim</title>
-  </head>
-  <body>
-    <curriculum-component></curriculum-component>
-  </body>
-</html>
-```
-
-## Curriculum data toevoegen
-
-Om nieuwe curriculuminformatie toe te voegen, volg je deze stappen:
-
-1. **Definieer Curriculumdata:**
-   Zorg ervoor dat je de juiste curriculumdata definieert die nodig zijn voor het aanpassen van het Curriculum Component. Dit helpt om de navigatiebalk correct te laten werken.
-
-2. **Navigeer naar de Architectuurlagen:**
-   Ga naar de map 'data/architectuurlagen'. Hier vind je de 5 architectuurlagen zoals beschreven in het hbo i model.
-
-3. **Selecteer de Juiste Architectuurlaag:**
-   Open de map van de relevante architectuurlaag waarin je curriculuminformatie wilt toevoegen.!![alt text](image-2.png)
-
-4. **Navigeer naar de SSDLc Fasen:**
-   Binnen de geselecteerde architectuurlaag vind je een map genaamd 'ssdlc'. Open deze map.
-
-5. **Voeg Curriculumdata Toe:**
-   Binnen de 'ssdlc' map vind je mappen voor alle SSDLc fasen. Open de specifieke fase waarin je curriculuminformatie wilt toevoegen.
-
-6. **Voeg HBO-I Activiteiten Toe:**
-   Voor het toevoegen van curriculumdata binnen een SSDLc fase, voeg je HBO-I activiteiten toe.
-
-7. **HBO-I Activiteit zonder Subvaardigheden:**
+3. **Voeg het component toe aan je pagina:** Plaats de `<curriculum-component>` tag in het body-gedeelte van je HTML-bestand om het Curriculum Component op je webpagina weer te geven.
 
    ```javascript
-   const curriculumData = [
-     {
-       naam: "HBO-I Realiseren",
-       vaardigheden: [
-         { naam: "Applicatie testen" },
-         { naam: "Applicatie implementeren" },
-       ],
-     },
-   ];
+   <curriculum-component
+     software-resource="https://raw.githubusercontent.com/voorbeeld/voorbeeld.software.json"
+     infrastructuur-resource="https://raw.githubusercontent.com/voorbeeld/voorbeeld.infrastructuur.json"
+     organisatieprocessen-resource="https://raw.githubusercontent.com/voorbeeld/voorbeeld.organisatieprocessen.json"
+     hardwareinterfacing-resource="https://raw.githubusercontent.com/voorbeeld/voorbeeld.hardwareinterfacing.json"
+     gebruikersinteractie-resource="https://raw.githubusercontent.com/voorbeeld/voorbeeld.gebruikersinteractie.json"
+   ></curriculum-component>
    ```
 
-   - **HBO-I Activiteit met Subvaardigheden:**
+Voor een live voorbeeld van de werking van dit component, zie index.html.
 
-     ```javascript
-     const curriculumData = [
-       {
-         naam: "HBO-I Ontwerpen",
-         vaardigheden: [
-           {
-             naam: "Ontwerp principes toepassen",
-             vaardigheden: [
-               { naam: "Toepassen van SOLID-principes" },
-               { naam: "Gebruik van design patterns" },
-             ],
-           },
-         ],
-       },
-     ];
-     ```
+## Attributen
 
-   - **Meerdere HBO-I Activiteiten:**
+- **software-resource:** De URL naar het JSON-bestand dat de informatie over softwareontwikkeling bevat.
+- **infrastructuur-resource:** De URL naar het JSON-bestand dat de informatie over infrastructuur bevat.
+- **organisatieprocessen-resource:** De URL naar het JSON-bestand dat de informatie over organisatieprocessen bevat.
+- **hardwareinterfacing-resource:** De URL naar het JSON-bestand dat de informatie over hardware-interfacing bevat.
+- **gebruikersinteractie-resource:** De URL naar het JSON-bestand dat de informatie over gebruikersinteractie bevat.
 
-     ```javascript
-     const curriculumData = [
-       {
-         naam: "HBO-I Analyseren",
-         vaardigheden: [
-           { naam: "Requirements analyseren" },
-           { naam: "Systeemarchitectuur evalueren" },
-         ],
-       },
-       {
-         naam: "HBO-I Ontwerpen",
-         vaardigheden: [
-           { naam: "Architectuur ontwerpen" },
-           { naam: "Gebruikersinterface ontwerpen" },
-         ],
-       },
-       {
-         naam: "HBO-I Realiseren",
-         vaardigheden: [
-           { naam: "Applicatie ontwikkelen" },
-           { naam: "Database modelleren" },
-         ],
-       },
-     ];
-     ```
+**Let op:** De attributen zijn niet verplicht, maar je hebt er minstens één nodig. De volgorde waarin je de attributen plaatst, bepaalt welke inhoud als eerste wordt weergegeven bij het laden van de pagina.
+
+## JSON-bestand format
+
+De structuur begint met een SSDLC-fase, die één of meerdere HBO-I-activiteiten omvat. Binnen elke activiteit worden verschillende vaardigheden genoemd. Deze vaardigheden kunnen verder onderverdeeld worden in meer specifieke vaardigheden. Optioneel kan elke vaardigheid een link bevatten naar een externe bron voor extra informatie wanneer erop geklikt wordt.
+
+```JSON
+[
+  {
+    "naam": "SSDLC Fase",
+    "activiteiten": [
+      {
+        "naam": "HBO-I Activiteit",
+        "vaardigheden": [
+          {
+            "naam": "Vaardigheid 1",
+            "link": "https://voorbeeldlink.com"
+          },
+          {
+            "naam": "Vaardigheid 2",
+            "vaardigheden": [
+              {
+                "naam": "Subvaardigheid 1",
+                "vaardigheden": [
+                  { "naam": "Subsubvaardigheid 1" },
+                  { "naam": "Subsubvaardigheid 2" }
+                ]
+              },
+              { "naam": "Subvaardigheid 2" }
+            ]
+          },
+          // Andere vaardigheden...
+        ]
+      },
+      // Andere activiteiten...
+    ]
+  },
+  // Andere fases...
+]
+
+
+```
