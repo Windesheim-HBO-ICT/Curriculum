@@ -6,11 +6,11 @@ Dit webcomponent geeft het curriculum weer van HBO-ICT Windesheim. Het maakt geb
 
 1. **Importeer het component script:** Voeg het script voor het Curriculum Component toe aan je HTML-bestand met behulp van de `<script>` tag en het type="module" attribuut.
 
-   `<script src="https://cdn.jsdelivr.net/gh/Windesheim-HBO-ICT/Curriculum/components/curriculum-component.js" type="module"></script>`
+    ```html<script src="https://cdn.jsdelivr.net/gh/Windesheim-HBO-ICT/Curriculum/components/curriculum-component.js" type="module"></script>```
 
 2. **Voeg de stylesheet toe:** Voeg de bijbehorende stylesheet toe aan je HTML-bestand om de juiste stijl toe te passen op het Curriculum Component.
 
-   `<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Windesheim-HBO-ICT/Curriculum/css/style.css" />`
+ ```html<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Windesheim-HBO-ICT/Curriculum/css/style.css" />```
 
 3. **Voeg het component toe aan je pagina:** Plaats de `<curriculum-component>` tag in het body-gedeelte van je HTML-bestand om het Curriculum Component op je webpagina weer te geven.
 
