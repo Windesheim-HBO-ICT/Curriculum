@@ -4,6 +4,7 @@ import gebruikersinteractieCurriculum from "../data/architectuurlaag/gebruikersi
 import infrastructureCurriculum from "../data/architectuurlaag/infrastructuur/curriculum.js";
 import hardwareInterfacingCurriculum from "../data/architectuurlaag/hardwareInterfacing/curriculum.js";
 import CardComponent from "./card-component.js";
+
 const template = document.createElement("template");
 template.innerHTML = `
     <link rel="stylesheet" href="/css/desktop-navbar.css">
@@ -13,7 +14,7 @@ template.innerHTML = `
         <select id="curriculumSelect">
             <option value="software">Software</option>
             <option value="infrastructuur">Infrastructuur</option>
-            <option value="organisatieprocessen">Organisatie proccessen</option>
+            <option value="organisatieprocessen">Organisatie processen</option>
             <option value="hardwareinterfacing">Hardware Interfacing</option>
             <option value="gebruikersinteractie">Gebruikersinteractie</option>
             
@@ -31,6 +32,7 @@ template.innerHTML = `
     </div>
     <div class="cards" id="cards"></div>
 `;
+
 export default class DesktopComponent extends HTMLElement {
   constructor() {
     super();
@@ -72,6 +74,12 @@ export default class DesktopComponent extends HTMLElement {
       const tab = document.createElement("li");
       tab.classList.add("tab");
       tab.textContent = item.naam;
+
+      const backgroundColor = item.backgroundColor;
+      if (backgroundColor) {
+        tab.style.backgroundColor = backgroundColor;
+      }
+      
       tabsContainer.appendChild(tab);
 
       const dropdown = document.createElement("ul");
@@ -89,10 +97,18 @@ export default class DesktopComponent extends HTMLElement {
   }
 
   showTree(item, label, event) {
+    
     const ssdlcFaseElement = this.shadowRoot.querySelector(".ssdlc-fase");
     const hboIActiviteitElement =
       this.shadowRoot.querySelector(".hbo-i-activiteit");
+    const contenttop = this.shadowRoot.querySelector(".content-top");
     ssdlcFaseElement.textContent = item.naam;
+    
+    const backgroundColor = item.backgroundColor;
+    if (backgroundColor) {
+      contenttop.style.backgroundColor = backgroundColor;
+    }
+
     hboIActiviteitElement.textContent = label.naam;
 
     const vaardigheden = label.vaardigheden || [];
@@ -136,6 +152,7 @@ export default class DesktopComponent extends HTMLElement {
         subtree.style.display = "none";
 
         this.buildTree(item.vaardigheden, subtree, true);
+        this.toggleSubtree(li);
       } else {
         const childIcon = document.createElement("span");
         childIcon.textContent = "◆";
