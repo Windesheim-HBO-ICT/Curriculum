@@ -24,7 +24,6 @@ template.innerHTML = `
     <div class="cards" id="cards"></div>
     </div>
 `;
-
 export default class DesktopComponent extends HTMLElement {
   constructor() {
     super();
@@ -210,7 +209,6 @@ export default class DesktopComponent extends HTMLElement {
       }
 
       li.appendChild(label);
-
       if (item.vaardigheden) {
         this.addSubtreeToggle(li, label, item.vaardigheden);
       } else {
