@@ -1,23 +1,14 @@
-import softwareCurriculum from "../data/architectuurlaag/software/curriculum.js";
-import organisatieprocessenCurriculum from "../data/architectuurlaag/organisatieprocessen/curriculum.js";
-import gebruikersinteractieCurriculum from "../data/architectuurlaag/gebruikersinteractie/curriculum.js";
-import infrastructureCurriculum from "../data/architectuurlaag/infrastructuur/curriculum.js";
-import hardwareInterfacingCurriculum from "../data/architectuurlaag/hardwareInterfacing/curriculum.js";
 import CardComponent from "./card-component.js";
 const template = document.createElement("template");
 template.innerHTML = `
   <link rel="stylesheet" href="/css/mobile-navbar.css">
+  <div class="main">
   <header>
     <div class="container">
       <input type="checkbox" name="" id="check">
       <div class="logo-container">
         <h3 class="logo">HBO-ICT Curriculum</h3>
         <select id="curriculumSelect">
-        <option value="software">Software</option>
-        <option value="infrastructuur">Infrastructuur</option>
-        <option value="organisatieprocessen">Organisatie proccessen</option>
-        <option value="hardwareinterfacing">Hardware Interfacing</option>
-        <option value="gebruikersinteractie">Gebruikersinteractie</option>
     </select>
       </div>
       <div class="nav-btn"></div>
@@ -34,27 +25,62 @@ template.innerHTML = `
       </div>
     </section>
   </main>
+  </div>
 `;
 export default class MobileComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.curriculum = {
-      software: softwareCurriculum,
-      infrastructuur: infrastructureCurriculum,
-      organisatieprocessen: organisatieprocessenCurriculum,
-      hardwareinterfacing: hardwareInterfacingCurriculum,
-      gebruikersinteractie: gebruikersinteractieCurriculum,
-    };
+    this.curriculum = {};
   }
-
   loadCurriculum(curriculumName) {
     const curriculumData = this.curriculum[curriculumName];
     const navButton = this.shadowRoot.querySelector(".nav-btn");
     this.createMenu(navButton, curriculumData);
     this.createCards();
   }
+  async connectedCallback() {
+    this.initializeNavigation();
+    this.loadResources();
+  }
+
+  initializeNavigation() {
+    const navButton = this.shadowRoot.querySelector(".nav-btn");
+    const selector = this.shadowRoot.querySelector("#curriculumSelect");
+
+    selector.addEventListener("change", (event) => {
+      this.handleCurriculumChange(event.target.value);
+    });
+  }
+
+  async loadResources() {
+    const resourcesAttr = this.getAttribute("resources");
+    if (resourcesAttr) {
+      try {
+        this.curriculum = JSON.parse(resourcesAttr);
+        const defaultCurriculum =
+          this.curriculum[Object.keys(this.curriculum)[0]];
+        this.createMenu(
+          this.shadowRoot.querySelector(".nav-btn"),
+          defaultCurriculum
+        );
+        this.buildSelectOptions(Object.keys(this.curriculum));
+      } catch (error) {
+        console.error("Error parsing resources attribute:", error);
+      }
+    } else {
+      console.error("No resources attribute provided.");
+    }
+
+    this.createCards();
+  }
+
+  handleCurriculumChange(selectedCurriculum) {
+    const curriculumData = this.curriculum[selectedCurriculum];
+    this.createMenu(this.shadowRoot.querySelector(".nav-btn"), curriculumData);
+  }
+
   /**
    * Creates the navigation menu.
    * @param {HTMLElement} parentElement - The parent element to which the menu will be appended.
@@ -75,21 +101,15 @@ export default class MobileComponent extends HTMLElement {
     navLinks.appendChild(ul);
     parentElement.appendChild(navLinks);
   }
-
-  async connectedCallback() {
-    const navButton = this.shadowRoot.querySelector(".nav-btn");
-    const selector = this.shadowRoot.querySelector("#curriculumSelect");
-
-    // Listen for change event from the select element
-    selector.addEventListener("change", (event) => {
-      const selectedCurriculum = event.target.value;
-      const navButton = this.shadowRoot.querySelector(".nav-btn");
-      const curriculumData = this.curriculum[selectedCurriculum];
-      this.createMenu(navButton, curriculumData);
+  buildSelectOptions(options) {
+    const select = this.shadowRoot.querySelector("#curriculumSelect");
+    select.innerHTML = "";
+    options.forEach((option) => {
+      const optionElement = document.createElement("option");
+      optionElement.value = option;
+      optionElement.textContent = option;
+      select.appendChild(optionElement);
     });
-
-    this.createMenu(navButton, this.curriculum.software);
-    this.createCards();
   }
   /**
    * Creates a menu item (list item) based on the provided item data.
@@ -100,24 +120,25 @@ export default class MobileComponent extends HTMLElement {
     const li = document.createElement("li");
     li.classList.add("nav-link");
     const a = document.createElement("a");
+    li.style.backgroundColor = item.kleur;
     a.textContent = item.naam;
     li.appendChild(a);
 
-    if (item.labels && item.labels.length > 0) {
-      this.createLabels(li, item.labels);
+    if (item.activiteiten && item.activiteiten.length > 0) {
+      this.createLabels(li, item.activiteiten);
     }
 
     return li;
   }
 
   /**
-   * Creates labels for sub-menu items and adds click event listeners to toggle their visibility.
-   * @param {HTMLElement} parentElement - The parent element to which labels will be appended.
+   * Creates activiteiten for sub-menu items and adds click event listeners to toggle their visibility.
+   * @param {HTMLElement} parentElement - The parent element to which activiteiten will be appended.
    * @param {Array} vaardigheden - The data for the sub-menu items.
    */
   createLabels(parentElement, vaardigheden) {
     const tags = document.createElement("div");
-    tags.className = "labels";
+    tags.className = "activiteiten";
     vaardigheden.forEach((child) => {
       const tag = document.createElement("div");
       tag.textContent = "📂 " + child.naam;
@@ -133,8 +154,8 @@ export default class MobileComponent extends HTMLElement {
   }
 
   /**
-   * Toggles the active state of labels and closes any open dropdowns not associated with the clicked label.
-   * @param {HTMLElement} parentElement - The parent element containing labels and dropdowns.
+   * Toggles the active state of activiteiten and closes any open dropdowns not associated with the clicked label.
+   * @param {HTMLElement} parentElement - The parent element containing activiteiten and dropdowns.
    * @param {HTMLElement} clickedLabel - The label that was clicked.
    */
   toggleLabels(parentElement, clickedLabel) {
@@ -151,7 +172,7 @@ export default class MobileComponent extends HTMLElement {
 
   /**
    * Toggles the visibility of dropdown menus based on the clicked label and closes unrelated open dropdowns.
-   * @param {HTMLElement} parentElement - The parent element containing labels and dropdowns.
+   * @param {HTMLElement} parentElement - The parent element containing activiteiten and dropdowns.
    * @param {Array} dropdownData - The data for the dropdown items.
    * @param {number} level - The depth level of the dropdown.
    */
@@ -274,9 +295,9 @@ export default class MobileComponent extends HTMLElement {
   }
 
   /**
-   * Creates a link (anchor) element for a menu item with appropriate styling and text content.
-   * @param {Object} item - The data for the menu item.
-   * @param {number} level - The depth level of the menu item.
+   * Creates a dropdown link element with appropriate styling and text content.
+   * @param {Object} item - The data for the dropdown item.
+   * @param {number} level - The depth level of the dropdown.
    * @returns {Object} - An object containing the created list item and anchor elements.
    */
   createDropdownLink(item, level) {
@@ -284,28 +305,23 @@ export default class MobileComponent extends HTMLElement {
     li.classList.add("dropdown-link");
     const a = document.createElement("a");
     a.style.marginLeft = `${level * 10}px`;
-    if (!item.vaardigheden) {
-      li.classList.add("leaf");
-      a.classList.add("leaf");
-    }
-    a.textContent = item.vaardigheden ? "▶ " + item.naam : "◆ " + item.naam;
-    return { li, a };
-  }
 
-  /**
-   * Retrieves the curriculum data asynchronously.
-   * @returns {Promise<Array>} - A promise that resolves to the curriculum data.
-   */
-  async getCurriculum() {
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const architectuurlaag = urlParams.get("architectuurlaag");
-      const moduleUrl = `../data/architectuurlaag/${architectuurlaag}/curriculum.js`;
-      const module = await import(moduleUrl);
-      return module.default;
-    } catch (error) {
-      console.error("Error loading module:", error);
+    a.textContent = item.vaardigheden ? "▶ " : "◆ ";
+
+    if (item.link) {
+      a.href = item.link;
+      a.target = "_blank";
+    } else {
+      if (!item.vaardigheden) {
+        li.classList.add("leaf");
+        a.classList.add("leaf");
+      }
     }
+
+    a.textContent += item.naam;
+
+    li.appendChild(a);
+    return { li, a };
   }
 
   /**
@@ -314,33 +330,16 @@ export default class MobileComponent extends HTMLElement {
   createCards() {
     const contentMiddle = this.shadowRoot.querySelector("section .overlay");
     contentMiddle.innerHTML = "";
-    const cardsData = [
-      {
-        title: "SSDLC",
-        description: "Korte uitleg van SSDLC",
-        imageUrl: "/public/ssdlc.png",
-        buttonUrl: "https://snyk.io/learn/secure-sdlc/",
-      },
-      {
-        title: "HBO-I Domeinen",
-        description: "Korte beschrijving van HBO-I Domeinen",
-        imageUrl: "/public/hboi.png",
-        buttonUrl: "https://www.hbo-i.nl/publicaties-domeinbeschrijving",
-      },
-      {
-        title: "Curriculum GitHub",
-        description:
-          "Opensource project voor Windesheim door Windesheim studenten.",
-        imageUrl: "/public/windesheim-logo.png",
-        buttonUrl: "https://github.com/Windesheim-HBO-ICT/Curriculum",
-      },
-    ];
 
-    cardsData.forEach((data) => {
-      const card = document.createElement("card-component");
-      card.setAttribute("data", JSON.stringify(data));
-      contentMiddle.appendChild(card);
-    });
+    if (this.hasAttribute("cards-data")) {
+      const cardsData = JSON.parse(this.getAttribute("cards-data"));
+
+      cardsData.forEach((data) => {
+        const card = document.createElement("card-component");
+        card.setAttribute("data", JSON.stringify(data));
+        contentMiddle.appendChild(card);
+      });
+    }
   }
 }
 

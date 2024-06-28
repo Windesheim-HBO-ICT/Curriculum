@@ -3,7 +3,6 @@
 :root {
   --base-color: #f5f6f7;
   --accent-color: black;
-
   --secondary-color-light: #fff578;
   --secondary-color: #f7cd46;
   --secondary-color-dark: #f5a61a;
@@ -16,7 +15,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
-  background-color: var(--background-color-light);
   color: var(--base-color);
   height: 100%;
   width: 100%;
